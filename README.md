@@ -1,3 +1,3 @@
 # Moving Block Mod for Jump King
 
-![Frame 117](https://github.com/user-attachments/assets/e77f1fb4-7931-4c8e-a328-37c5913758a6)
+![Frame 117](https://github.com/user-attachments/assets/ab495fb8-2d35-494b-ac44-e9dd225db99d)
