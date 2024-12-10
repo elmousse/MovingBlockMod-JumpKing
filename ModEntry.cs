@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JumpKing.Mods;
 using System.Diagnostics;
 using EntityComponent;
@@ -20,13 +21,15 @@ namespace MovingBlockMod
             var harmony = new Harmony("elmousse.MovingBlockMod");
             harmony.PatchAll();
             
-            var levelRoot = Game1.instance.contentManager.root;
             var contentManager = Game1.instance.contentManager;
+            var modLevelPath = (contentManager.root + @"moving_platforms\");
             
-            
-            // la on register toutes les moving platforms
-            // comme ca tous les blocks sont creer et les textures sont load
-            // yaura plus qu'a les ajouter dans LoadBlocksInterval
+            var movingPlatformDtoList = MovingPlatformLoader.GetXmlData(modLevelPath);
+            foreach (var movingPlatformDto in movingPlatformDtoList)
+            {
+                var movingPlatform = MovingPlatform.FromXmlData(movingPlatformDto);
+                MovingPlatformManager.Instance.RegisterPlatform(movingPlatform);
+            }
         }
         
         [OnLevelStart]

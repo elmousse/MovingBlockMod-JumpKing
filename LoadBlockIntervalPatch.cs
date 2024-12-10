@@ -13,12 +13,7 @@ namespace MovingBlockMod
         static MethodBase TargetMethod()
         {
             var type = typeof(LevelManager);
-            Debug.WriteLine($"Recherche dans le type : {type.FullName}");
             var method = type.GetMethod("LoadBlocksInterval", BindingFlags.NonPublic | BindingFlags.Static);
-            if (method == null)
-            {
-                Debug.WriteLine("La méthode LoadBlocksInterval est introuvable.");
-            }
             return method;
         }
 
@@ -34,10 +29,14 @@ namespace MovingBlockMod
         {
             var blockList = new List<IBlock>(__result);
             
-            // Regarder si le fichier du screen existe
-            // Si oui, dans le fichier du screen correspondant, pour chaque MovingPlatform
-            // Parcourir chaque pixel de la texture du MovingPlatform
-            // Ajouter le block correspondant dans blockList
+            // Add MovingPlatform.Blocks to the blockList for MovingPlatform equal to the current screen
+            foreach (var movingPlatform in MovingPlatformManager.Instance.Platforms)
+            {
+                if (movingPlatform.Screen == p_screen)
+                {
+                    blockList.AddRange(movingPlatform.Blocks);
+                }
+            }
             
             __result = blockList.ToArray();
         }

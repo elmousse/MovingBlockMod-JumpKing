@@ -32,6 +32,9 @@
       <OutputPath>bin\x64\Debug\</OutputPath>
       <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
+    <PropertyGroup>
+      <PostBuildEvent>xcopy /y "$(TargetDir)*" "C:\Games\Steam\steamapps\common\Jump King\Content\JKMods"</PostBuildEvent>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
           <HintPath>packages\Lib.Harmony.2.2.2\lib\net45\0Harmony.dll</HintPath>
@@ -51,11 +54,16 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AchievementManagerWrapper.cs" />
+        <Compile Include="MovingPlatformHitbox.cs" />
+        <Compile Include="XmlData\MovingPlatformXml.cs" />
+        <Compile Include="XmlData\MovingPlatformsXml.cs" />
+        <Compile Include="XmlData\PositionXml.cs" />
         <Compile Include="LoadBlockIntervalPatch.cs" />
         <Compile Include="ModEntry.cs" />
         <Compile Include="MovingBlock.cs" />
         <Compile Include="MovingBlockBehaviour.cs" />
         <Compile Include="MovingPlatform.cs" />
+        <Compile Include="MovingPlatformLoader.cs" />
         <Compile Include="MovingPlatformManager.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

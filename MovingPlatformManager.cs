@@ -6,11 +6,11 @@ namespace MovingBlockMod
     {
         private static MovingPlatformManager _instance;
 
-        private List<MovingPlatform> _platforms;
+        public List<MovingPlatform> Platforms { get; }
         
         private MovingPlatformManager()
         {
-            _platforms = new List<MovingPlatform>();
+            Platforms = new List<MovingPlatform>();
         }
         
         public static MovingPlatformManager Instance
@@ -27,24 +27,24 @@ namespace MovingBlockMod
         
         public void Reset()
         {
-            _platforms.Clear();
+            Platforms.Clear();
         }
         
         public void RegisterPlatform(MovingPlatform platform)
         {
-            _platforms.Add(platform);
+            Platforms.Add(platform);
         }
         
         public void UnregisterPlatform(MovingPlatform platform)
         {
-            _platforms.Remove(platform);
+            Platforms.Remove(platform);
         }
         
         public void UpdateAllPlatforms()
         {
-            foreach (var platform in _platforms)
+            foreach (var platform in Platforms)
             {
-                platform.Update();
+                platform.Update1();
             }
         }
     }
