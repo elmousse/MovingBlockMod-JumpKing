@@ -20,16 +20,6 @@ namespace MovingBlockMod
 #endif
             var harmony = new Harmony("elmousse.MovingBlockMod");
             harmony.PatchAll();
-            
-            var contentManager = Game1.instance.contentManager;
-            var modLevelPath = (contentManager.root + @"moving_platforms\");
-            
-            var movingPlatformDtoList = MovingPlatformLoader.GetXmlData(modLevelPath);
-            foreach (var movingPlatformDto in movingPlatformDtoList)
-            {
-                var movingPlatform = MovingPlatform.FromXmlData(movingPlatformDto);
-                MovingPlatformManager.Instance.RegisterPlatform(movingPlatform);
-            }
         }
         
         [OnLevelStart]

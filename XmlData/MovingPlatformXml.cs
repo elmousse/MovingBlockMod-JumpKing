@@ -14,7 +14,7 @@ namespace MovingBlockMod.XmlData
         public string TextureName { get; set; }
 
         [XmlElement("TotalTime")]
-        public float TotalTime { get; set; }
+        public float? TotalTime { get; set; }
 
         [XmlArray("Positions")]
         [XmlArrayItem("Position")]

@@ -1,7 +1,9 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using HarmonyLib;
+using JumpKing;
 using JumpKing.Level;
 using JumpKing.Level.Sampler;
 
@@ -27,9 +29,22 @@ namespace MovingBlockMod
             ref float wind_int,
             ref bool? wind_direction)
         {
+            if (p_screen == 0)
+            {
+                MovingPlatformManager.Instance.Reset();
+                
+                var contentManager = Game1.instance.contentManager;
+                var sep = Path.DirectorySeparatorChar;
+                var modLevelPath = $"{contentManager.root}{sep}moving_platforms{sep}".Replace('\\', '/');
+                
+                var movingPlatformDtoList = MovingPlatformLoader.GetXmlData(modLevelPath);
+                foreach (var movingPlatformDto in movingPlatformDtoList)
+                {
+                    var movingPlatform = MovingPlatform.FromXmlData(movingPlatformDto);
+                    MovingPlatformManager.Instance.RegisterPlatform(movingPlatform);
+                }
+            }
             var blockList = new List<IBlock>(__result);
-            
-            // Add MovingPlatform.Blocks to the blockList for MovingPlatform equal to the current screen
             foreach (var movingPlatform in MovingPlatformManager.Instance.Platforms)
             {
                 if (movingPlatform.Screen == p_screen)
@@ -37,7 +52,6 @@ namespace MovingBlockMod
                     blockList.AddRange(movingPlatform.Blocks);
                 }
             }
-            
             __result = blockList.ToArray();
         }
     }

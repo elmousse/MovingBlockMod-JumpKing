@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using EntityComponent;
 using JumpKing;
+using JumpKing.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MovingBlockMod.XmlData;
@@ -13,20 +14,20 @@ namespace MovingBlockMod
         private readonly List<MovingBlock> _blocks = new List<MovingBlock>();
         public List<MovingBlock> Blocks => _blocks;
         public int Screen { get; }
-        private Texture2D Texture { get; }
-
-        public Point Position { get; private set; }
-        private Point _startPosition;
+        private Sprite _sprite;
+        
+        private List<Waypoint> Waypoints { get; }
+        public Point CurrentPosition { get; private set; }
         
         private MovingPlatform(
             int screen,
             Texture2D texture,
-            Point startPosition)
+            List<Waypoint> waypoints)
         {
             Screen = screen;
-            Texture = texture;
-            _startPosition = startPosition;
-            Position = startPosition;
+            Waypoints = waypoints;
+            CurrentPosition = Waypoints[0].Position;
+            _sprite = Sprite.CreateSprite(texture);
         }
 
         public static MovingPlatform FromXmlData(MovingPlatformXml data)
@@ -35,12 +36,12 @@ namespace MovingBlockMod
             var hitbox = MovingPlatformHitbox.FromTexture(hitboxTexture);
             
             var texture = MovingPlatformLoader.LoadTexture(data.TextureName, "textures");
+
+            var waypoints = GetWaypointsFromData(data);
             
-            var startPosition = data.Positions[0].Position;
+            var platform = new MovingPlatform(data.ScreenIndex, texture, waypoints);
             
-            var platform = new MovingPlatform(data.ScreenIndex, texture, startPosition);
-            
-            // plus tard ajouter une factory pour les blocks
+            // plus tard, ajouter une factory pour les blocks
             for (var i = 0; i < hitbox.Height * hitbox.Width; i++)
             {
                 var xPosition = (i % hitbox.Width) * 8;
@@ -52,8 +53,37 @@ namespace MovingBlockMod
                 }
                 platform.AddBlock(new MovingBlock(new Point(xPosition, yPosition), platform));
             }
-
+            
             return platform;
+        }
+        
+        private static List<Waypoint> GetWaypointsFromData(MovingPlatformXml data)
+        {
+            var waypoints = new List<Waypoint>();
+            if (!(data.TotalTime == null || data.TotalTime == 0))
+            {
+                var fullLength = 0f;
+                for (var i = 0; i < data.Positions.Count - 1; i++)
+                {
+                    var position1 = data.Positions[i];
+                    var position2 = data.Positions[i + 1];
+                    var length = Math.Abs(position1.X - position2.X) + Math.Abs(position1.Y - position2.Y);
+                    fullLength += length;
+                }
+                var timePerUnit = (float)data.TotalTime / fullLength;
+                var currentTime = 0f;
+                for (var i = 0; i < data.Positions.Count - 1; i++)
+                {
+                    var position1 = data.Positions[i];
+                    var position2 = data.Positions[i + 1];
+                    var length = Math.Abs(position1.X - position2.X) + Math.Abs(position1.Y - position2.Y);
+                    var time = length * timePerUnit;
+                    waypoints.Add(new Waypoint(position1.Position, currentTime));
+                    currentTime += time;
+                }
+                waypoints.Add(new Waypoint(data.Positions[data.Positions.Count - 1].Position, (float)data.TotalTime));
+            }
+            return waypoints;
         }
         
         private void AddBlock(MovingBlock block)
@@ -72,29 +102,45 @@ namespace MovingBlockMod
         
         public void Update1()
         {
-            Position = UpdatePlatformPosition();
+            CurrentPosition = GetPlatformPosition();
             foreach (var block in _blocks)
             {
                 block.UpdatePosition();
             }
         }
         
-        public override void Draw() 
+        public override void Draw()
         {
-            if (Texture == null)
+            if (LevelManager.CurrentScreen.GetIndex0() != Screen)
             {
                 return;
             }
-            var spriteBatch = Game1.spriteBatch;
-            spriteBatch.Draw(Texture, Position.ToVector2(), Color.White);
+            _sprite.Draw(Camera.TransformVector2(CurrentPosition.ToVector2()));
         }
         
-        private Point UpdatePlatformPosition()
+        private Point GetPlatformPosition()
         {
             var timeSpan = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
             var time = (float)timeSpan.TotalSeconds;
-            var x = (float)( _startPosition.X + Math.Abs( 200 * ( time / 10 - Math.Floor( time / 10 ) - 0.5 )));
-            return new Point((int)x, _startPosition.Y);
+            
+            var modTime = time % Waypoints[Waypoints.Count - 1].Time;
+            
+            for (var i = 0; i < Waypoints.Count - 1; i++)
+            {
+                if (!(modTime >= Waypoints[i].Time && modTime < Waypoints[i + 1].Time))
+                {
+                    continue;
+                }
+                var time1 = Waypoints[i].Time;
+                var time2 = Waypoints[i + 1].Time;
+                var timeDiff = time2 - time1;
+                var timeIntoSegment = modTime - time1;
+                var timeRatio = timeIntoSegment / timeDiff;
+                var x = Waypoints[i].X + (Waypoints[i + 1].X - Waypoints[i].X) * timeRatio;
+                var y = Waypoints[i].Y + (Waypoints[i + 1].Y - Waypoints[i].Y) * timeRatio;
+                return new Point((int)x, (int)y);
+            }
+            return Point.Zero;
         }
     }
 }

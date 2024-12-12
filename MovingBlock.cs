@@ -17,7 +17,7 @@ namespace MovingBlockMod
         {
             _parentPlatform = parentPlatform;
             _platformRelativePosition = platformRelativePosition;
-            var blockPosition = parentPlatform.Position + platformRelativePosition;
+            var blockPosition = parentPlatform.CurrentPosition + platformRelativePosition;
             _collider = new Rectangle(blockPosition, new Point(8, 8));
         }
 
@@ -40,7 +40,7 @@ namespace MovingBlockMod
         
         public void UpdatePosition()
         {
-            var blockPosition = _parentPlatform.Position + _platformRelativePosition;
+            var blockPosition = _parentPlatform.CurrentPosition + _platformRelativePosition;
             _collider.X = blockPosition.X;
             _collider.Y = blockPosition.Y;
         }
