@@ -16,8 +16,8 @@ namespace MovingBlockMod.XmlData
         [XmlElement("TotalTime")]
         public float? TotalTime { get; set; }
 
-        [XmlArray("Positions")]
-        [XmlArrayItem("Position")]
-        public List<PositionXml> Positions { get; set; } = new List<PositionXml>();
+        [XmlArray("Waypoints")]
+        [XmlArrayItem("Waypoint")]
+        public List<WaypointXml> Waypoints { get; set; } = new List<WaypointXml>();
     }
 }

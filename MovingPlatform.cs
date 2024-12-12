@@ -63,25 +63,25 @@ namespace MovingBlockMod
             if (!(data.TotalTime == null || data.TotalTime == 0))
             {
                 var fullLength = 0f;
-                for (var i = 0; i < data.Positions.Count - 1; i++)
+                for (var i = 0; i < data.Waypoints.Count - 1; i++)
                 {
-                    var position1 = data.Positions[i];
-                    var position2 = data.Positions[i + 1];
+                    var position1 = data.Waypoints[i];
+                    var position2 = data.Waypoints[i + 1];
                     var length = Math.Abs(position1.X - position2.X) + Math.Abs(position1.Y - position2.Y);
                     fullLength += length;
                 }
                 var timePerUnit = (float)data.TotalTime / fullLength;
                 var currentTime = 0f;
-                for (var i = 0; i < data.Positions.Count - 1; i++)
+                for (var i = 0; i < data.Waypoints.Count - 1; i++)
                 {
-                    var position1 = data.Positions[i];
-                    var position2 = data.Positions[i + 1];
+                    var position1 = data.Waypoints[i];
+                    var position2 = data.Waypoints[i + 1];
                     var length = Math.Abs(position1.X - position2.X) + Math.Abs(position1.Y - position2.Y);
                     var time = length * timePerUnit;
                     waypoints.Add(new Waypoint(position1.Position, currentTime));
                     currentTime += time;
                 }
-                waypoints.Add(new Waypoint(data.Positions[data.Positions.Count - 1].Position, (float)data.TotalTime));
+                waypoints.Add(new Waypoint(data.Waypoints[data.Waypoints.Count - 1].Position, (float)data.TotalTime));
             }
             return waypoints;
         }

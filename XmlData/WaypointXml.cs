@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace MovingBlockMod.XmlData
 {
-    public class PositionXml
+    public class WaypointXml
     {
         [XmlElement("X")] // Correspond à la balise <X>
         public int X { get; set; }
