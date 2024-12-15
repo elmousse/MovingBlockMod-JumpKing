@@ -34,7 +34,7 @@ namespace MovingBlockMod
                         var dto = (MovingPlatformsXml)serializer.Deserialize(fileStream);
                         foreach (var platform in dto.Platforms)
                         {
-                            platform.ScreenIndex = i;
+                            platform.Setup(i);
                         }
                         movingPlatformsDto.Platforms.AddRange(dto.Platforms);
                     }

@@ -5,15 +5,24 @@ namespace MovingBlockMod.XmlData
 {
     public class WaypointXml
     {
-        [XmlElement("X")] // Correspond à la balise <X>
+        [XmlElement("X")]
         public int X { get; set; }
 
-        [XmlElement("Y")] // Correspond à la balise <Y>
+        [XmlElement("Y")]
         public int Y { get; set; }
 
-        [XmlElement("Time", IsNullable = true)] // Correspond à la balise <Time> (nullable)
-        public int? Time { get; set; }
+        [XmlElement("Time", IsNullable = true)]
+        public float? Time { get; set; }
         
-        public Point Position => new Point(X, Y);
+        [XmlElement("RelativeTime", IsNullable = true)]
+        public float? RelativeTime { get; set; }
+        
+        public Point Position => new Point(X, Y - _parentPlatform.ScreenIndex * 45 * 8);
+        
+        private MovingPlatformXml _parentPlatform;
+        public void Setup(MovingPlatformXml parentPlatform)
+        {
+            _parentPlatform = parentPlatform;
+        }
     }
 }
