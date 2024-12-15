@@ -55,11 +55,12 @@
     <ItemGroup>
         <Compile Include="AchievementManagerWrapper.cs" />
         <Compile Include="MovingPlatformHitbox.cs" />
+        <Compile Include="Patches\LoadBlockIntervalPatch.cs" />
+        <Compile Include="Patches\WindExecuteBehaviourPatch.cs" />
         <Compile Include="Waypoint.cs" />
         <Compile Include="XmlData\MovingPlatformXml.cs" />
         <Compile Include="XmlData\MovingPlatformsXml.cs" />
         <Compile Include="XmlData\WaypointXml.cs" />
-        <Compile Include="LoadBlockIntervalPatch.cs" />
         <Compile Include="ModEntry.cs" />
         <Compile Include="MovingBlock.cs" />
         <Compile Include="MovingBlockBehaviour.cs" />
