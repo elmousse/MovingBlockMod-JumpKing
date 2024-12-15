@@ -49,7 +49,6 @@ namespace MovingBlockMod
         /// <inheritdoc/>
         public bool ExecuteBlockBehaviour(BehaviourContext behaviourContext)
         {
-            MovingPlatformManager.Instance.UpdateAllPlatforms();
             if (behaviourContext?.CollisionInfo?.PreResolutionCollisionInfo == null)
             {
                 return true;
