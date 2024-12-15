@@ -7,7 +7,7 @@ using JumpKing;
 using JumpKing.Level;
 using JumpKing.Level.Sampler;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Patches
 {
     [HarmonyPatch]
     public class LoadBlockIntervalPatch
