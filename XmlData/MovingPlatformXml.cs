@@ -27,6 +27,9 @@ namespace MovingBlockMod.XmlData
         [XmlElement("textureOffsetY")]
         public int? TextureOffsetY { get; set; }
         
+        [XmlElement("leverId")]
+        public string LeverId { get; set; }
+        
         [XmlArray("Waypoints")]
         [XmlArrayItem("Waypoint")]
         public List<WaypointXml> Waypoints { get; set; } = new List<WaypointXml>();
