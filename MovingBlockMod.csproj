@@ -58,6 +58,7 @@
         <Compile Include="Patches\LoadBlockIntervalPatch.cs" />
         <Compile Include="Patches\WindExecuteBehaviourPatch.cs" />
         <Compile Include="Waypoint.cs" />
+        <Compile Include="XmlData\LeverXml.cs" />
         <Compile Include="XmlData\MovingPlatformXml.cs" />
         <Compile Include="XmlData\MovingPlatformsXml.cs" />
         <Compile Include="XmlData\WaypointXml.cs" />
