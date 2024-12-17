@@ -9,22 +9,22 @@ namespace MovingBlockMod.XmlData
     {
         public int ScreenIndex { get; set; }
         
-        [XmlElement("HitboxName")]
+        [XmlElement("hitboxName")]
         public string HitboxName { get; set; }
 
-        [XmlElement("TextureName")]
+        [XmlElement("textureName")]
         public string TextureName { get; set; }
 
-        [XmlElement("TotalTime")]
+        [XmlElement("totalTime")]
         public float? TotalTime { get; set; }
         
-        [XmlElement("PingPongWay")]
+        [XmlElement("pingPongMode")]
         public bool PingPongWay { get; set; }
         
-        [XmlElement("TextureOffsetX")]
+        [XmlElement("textureOffsetX")]
         public int? TextureOffsetX { get; set; }
         
-        [XmlElement("TextureOffsetY")]
+        [XmlElement("textureOffsetY")]
         public int? TextureOffsetY { get; set; }
         
         [XmlArray("Waypoints")]

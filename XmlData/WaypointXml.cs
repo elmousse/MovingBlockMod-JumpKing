@@ -11,10 +11,10 @@ namespace MovingBlockMod.XmlData
         [XmlElement("Y")]
         public int Y { get; set; }
 
-        [XmlElement("Time", IsNullable = true)]
+        [XmlElement("time", IsNullable = true)]
         public float? Time { get; set; }
         
-        [XmlElement("RelativeTime", IsNullable = true)]
+        [XmlElement("relativeTime", IsNullable = true)]
         public float? RelativeTime { get; set; }
         
         public Point Position => new Point(X, Y - _parentPlatform.ScreenIndex * 45 * 8);
