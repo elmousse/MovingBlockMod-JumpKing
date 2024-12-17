@@ -54,6 +54,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AchievementManagerWrapper.cs" />
+        <Compile Include="LeverMode.cs" />
         <Compile Include="MovingPlatformHitbox.cs" />
         <Compile Include="Patches\LoadBlockIntervalPatch.cs" />
         <Compile Include="Patches\WindExecuteBehaviourPatch.cs" />
