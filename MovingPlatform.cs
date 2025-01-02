@@ -21,7 +21,7 @@ namespace MovingBlockMod
         public Point CurrentPosition { get; private set; }
         private Point _textureOffset { get; }
         
-        private MovingPlatform(
+        public MovingPlatform(
             int screen,
             Texture2D texture,
             List<Waypoint> waypoints,
@@ -33,40 +33,8 @@ namespace MovingBlockMod
             _sprite = Sprite.CreateSprite(texture);
             _textureOffset = textureOffset;
         }
-
-        public static MovingPlatform FromXmlData(MovingPlatformXml data)
-        {
-            var hitboxTexture = MovingPlatformLoader.LoadTexture(data.HitboxName, "hitboxes");
-            var hitbox = MovingPlatformHitbox.FromTexture(hitboxTexture);
-            
-            var texture = MovingPlatformLoader.LoadTexture(data.TextureName, "textures");
-
-            var waypoints = data.GetWaypointsFromData();
-            
-            if (waypoints.Count == 0) 
-                return null;
-            
-            var textureOffset = new Point(data.TextureOffsetX ?? 0, data.TextureOffsetY ?? 0);
-            
-            var platform = new MovingPlatform(data.ScreenIndex, texture, waypoints, textureOffset);
-            
-            // plus tard, ajouter une factory pour les blocks
-            for (var i = 0; i < hitbox.Height * hitbox.Width; i++)
-            {
-                var xPosition = (i % hitbox.Width) * 8;
-                var yPosition = (i / hitbox.Width) * 8;
-                
-                if (hitbox.Hitbox[i].A == 0)
-                {
-                    continue;
-                }
-                platform.AddBlock(new MovingBlock(new Point(xPosition, yPosition), platform));
-            }
-            
-            return platform;
-        }
         
-        private void AddBlock(MovingBlock block)
+        public void AddBlock(MovingBlock block)
         {
             _blocks.Add(block);
         }
@@ -91,21 +59,14 @@ namespace MovingBlockMod
         
         public override void Draw()
         {
-            if (EntityManager.instance.Find<PlayerEntity>() == null)
-            {
-                return;
-            }
-            if (LevelManager.CurrentScreen.GetIndex0() != Screen)
-            {
-                return;
-            }
+            if (EntityManager.instance.Find<PlayerEntity>() == null
+                || LevelManager.CurrentScreen.GetIndex0() != Screen) return;
             _sprite.Draw(Camera.TransformVector2((CurrentPosition - _textureOffset).ToVector2()));
         }
         
         private Point GetPlatformPosition()
         {
-            var timeSpan = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
-            var time = (float)timeSpan.TotalSeconds;
+            var time = (float)((TimeSpan)AchievementManagerWrapper.GetTimeSpan()).TotalSeconds;
             
             var modTime = time % Waypoints[Waypoints.Count - 1].Time;
             

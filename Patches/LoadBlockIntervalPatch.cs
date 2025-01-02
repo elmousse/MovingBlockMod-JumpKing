@@ -37,10 +37,11 @@ namespace MovingBlockMod.Patches
                 var sep = Path.DirectorySeparatorChar;
                 var modLevelPath = $"{contentManager.root}{sep}moving_platforms{sep}".Replace('\\', '/');
                 
-                var movingPlatformDtoList = MovingPlatformLoader.GetXmlData(modLevelPath);
+                var movingPlatformDtoList = Loader.GetMovingPlatformXmlData(modLevelPath);
+                var factory = new MovingPlatformFactory();
                 foreach (var movingPlatformDto in movingPlatformDtoList)
                 {
-                    var movingPlatform = MovingPlatform.FromXmlData(movingPlatformDto);
+                    var movingPlatform = factory.CreateFromXmlData(movingPlatformDto);
                     MovingPlatformManager.Instance.RegisterPlatform(movingPlatform);
                 }
             }
