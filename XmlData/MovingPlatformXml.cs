@@ -19,7 +19,7 @@ namespace MovingBlockMod.XmlData
         public float? TotalTime { get; set; }
         
         [XmlElement("pingPongMode")]
-        public bool PingPongWay { get; set; }
+        public bool PingPongMode { get; set; }
         
         [XmlElement("textureOffsetX")]
         public int? TextureOffsetX { get; set; }
@@ -81,7 +81,7 @@ namespace MovingBlockMod.XmlData
                 }
             }
 
-            if (!PingPongWay)
+            if (!PingPongMode)
                 return waypoints;
             
             for (var i = waypoints.Count - 2; i >= 0; i--)
