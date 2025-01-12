@@ -10,9 +10,9 @@ using MovingBlockMod.XmlData;
 
 namespace MovingBlockMod
 {
-    public class MovingPlatformLoader
+    public class Loader
     {
-        public static List<MovingPlatformXml> GetXmlData(string modPath)
+        public static List<MovingPlatformXml> GetMovingPlatformXmlData(string modPath)
         {
             var movingPlatformsDto = new MovingPlatformsXml();
             
@@ -47,15 +47,39 @@ namespace MovingBlockMod
             return movingPlatformsDto.Platforms;
         }
         
+        public static List<LeverXml> GetLeverXmlData(string modPath)
+        {
+            var leversDto = new LeversXml();
+            var xmlPath = modPath + "levers.xml";
+            
+            if (!File.Exists(xmlPath))
+            {
+                return leversDto.Levers;
+            }
+            
+            using (var fileStream = new FileStream(xmlPath, FileMode.Open))
+            {
+                try
+                {
+                    var serializer = new XmlSerializer(typeof(LeversXml));
+                    var dto = (LeversXml)serializer.Deserialize(fileStream);
+                    leversDto.Levers.AddRange(dto.Levers);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error loading lever xml: " + ex.Message);
+                }
+            }
+            return leversDto.Levers;
+        }
+        
         public static Texture2D LoadTexture(string fileName, string type)
         {
             var contentManager = Game1.instance.contentManager;
             var sep = Path.DirectorySeparatorChar;
             var texturePath = $"{contentManager.root}{sep}moving_platforms{sep}{type}{sep}{fileName}";
             if (!File.Exists($"{texturePath}.xnb"))
-            {
                 return null;
-            }
             return contentManager.Load<Texture2D>(texturePath);
         }
     }

@@ -3,11 +3,12 @@ using JumpKing.BodyCompBehaviours;
 
 namespace MovingBlockMod.Patches
 {
-    [HarmonyPatch(typeof(WindVelocityUpdateBehaviour), nameof(WindVelocityUpdateBehaviour.ExecuteBehaviour))]
-    public class WindExecuteBehaviourPatch
+    [HarmonyPatch(typeof(PlayBumpSFXBehaviour), nameof(PlayBumpSFXBehaviour.ExecuteBehaviour))]
+    public class PlayBumpSfxBehaviourPatch
     {
         public static void Postfix()
         {
+            LeverManager.Instance.UpdateAllLevers();
             MovingPlatformManager.Instance.UpdateAllPlatforms();
         }
     }

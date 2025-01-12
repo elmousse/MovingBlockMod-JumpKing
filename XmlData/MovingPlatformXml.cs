@@ -9,23 +9,30 @@ namespace MovingBlockMod.XmlData
     {
         public int ScreenIndex { get; set; }
         
-        [XmlElement("HitboxName")]
+        [XmlElement("hitboxName")]
         public string HitboxName { get; set; }
 
-        [XmlElement("TextureName")]
+        [XmlElement("textureName")]
         public string TextureName { get; set; }
 
-        [XmlElement("TotalTime")]
+        [XmlElement("totalTime")]
         public float? TotalTime { get; set; }
         
-        [XmlElement("PingPongWay")]
-        public bool PingPongWay { get; set; }
+        [XmlElement("pingPongMode")]
+        public bool PingPongMode { get; set; }
         
-        [XmlElement("TextureOffsetX")]
+        [XmlElement("textureOffsetX")]
         public int? TextureOffsetX { get; set; }
         
-        [XmlElement("TextureOffsetY")]
+        [XmlElement("textureOffsetY")]
         public int? TextureOffsetY { get; set; }
+        
+        [XmlElement("leverId")]
+        public string LeverId { get; set; }
+        
+        [XmlElement("movingBehaviour")]
+        public string SerializedMovingBehaviour { get; set; }
+        
         
         [XmlArray("Waypoints")]
         [XmlArrayItem("Waypoint")]
@@ -78,7 +85,7 @@ namespace MovingBlockMod.XmlData
                 }
             }
 
-            if (!PingPongWay)
+            if (!PingPongMode)
                 return waypoints;
             
             for (var i = waypoints.Count - 2; i >= 0; i--)

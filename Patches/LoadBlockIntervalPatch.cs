@@ -2,10 +2,12 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using HarmonyLib;
 using JumpKing;
 using JumpKing.Level;
 using JumpKing.Level.Sampler;
+using MovingBlockMod.Factory;
 
 namespace MovingBlockMod.Patches
 {
@@ -37,20 +39,48 @@ namespace MovingBlockMod.Patches
                 var sep = Path.DirectorySeparatorChar;
                 var modLevelPath = $"{contentManager.root}{sep}moving_platforms{sep}".Replace('\\', '/');
                 
-                var movingPlatformDtoList = MovingPlatformLoader.GetXmlData(modLevelPath);
+                var leverDtoList = Loader.GetLeverXmlData(modLevelPath);
+                var leverFactory = new LeverFactory();
+                foreach (var leverDto in leverDtoList)
+                {
+                    var lever = leverFactory.CreateFromXmlData(leverDto);
+                    LeverManager.Instance.RegisterLever(lever);
+                }
+                
+                var movingPlatformDtoList = Loader.GetMovingPlatformXmlData(modLevelPath);
+                var movingPlatformFactory = new MovingPlatformFactory();
                 foreach (var movingPlatformDto in movingPlatformDtoList)
                 {
-                    var movingPlatform = MovingPlatform.FromXmlData(movingPlatformDto);
+                    var movingPlatform = movingPlatformFactory.CreateFromXmlData(movingPlatformDto);
                     MovingPlatformManager.Instance.RegisterPlatform(movingPlatform);
+                    
+                    var lever = LeverManager.Instance.Levers.Find(l => l.Id == movingPlatformDto.LeverId);
+                    if (lever == null)
+                    {
+                        movingPlatform.SetPlatformActivation(new PlatformActivationAlwaysOn());
+                        continue;
+                    }
+                    lever.AddPlatform(movingPlatform);
+                    movingPlatform.SetLever(lever);
                 }
             }
             var blockList = new List<IBlock>(__result);
             foreach (var movingPlatform in MovingPlatformManager.Instance.Platforms)
             {
-                if (movingPlatform.Screen == p_screen)
+                if (movingPlatform.Screen != p_screen)
                 {
-                    blockList.AddRange(movingPlatform.Blocks);
+                    continue;
                 }
+                blockList.AddRange(movingPlatform.Blocks);
+            }
+            foreach (var lever in LeverManager.Instance.Levers)
+            {
+                var blocks = lever.Blocks.FindAll(b => b.Screen == p_screen);
+                if (!blocks.Any())
+                {
+                    continue;
+                }
+                blockList.AddRange(blocks);
             }
             __result = blockList.ToArray();
         }

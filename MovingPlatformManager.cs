@@ -32,12 +32,11 @@ namespace MovingBlockMod
         
         public void RegisterPlatform(MovingPlatform platform)
         {
+            if (platform == null)
+            {
+                return;
+            }
             Platforms.Add(platform);
-        }
-        
-        public void UnregisterPlatform(MovingPlatform platform)
-        {
-            Platforms.Remove(platform);
         }
         
         public void UpdateAllPlatforms()

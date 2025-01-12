@@ -12,6 +12,7 @@ namespace MovingBlockMod
 {
     public class MovingPlatform : Entity
     {
+        public Lever Lever { get; private set; }
         private readonly List<MovingBlock> _blocks = new List<MovingBlock>();
         public List<MovingBlock> Blocks => _blocks;
         public int Screen { get; }
@@ -21,52 +22,37 @@ namespace MovingBlockMod
         public Point CurrentPosition { get; private set; }
         private Point _textureOffset { get; }
         
-        private MovingPlatform(
+        private IPlatformActivation _activation;
+        
+        private TimeSpan _delay = TimeSpan.Zero;
+        private TimeSpan _lastTimeActive = TimeSpan.Zero;
+        
+        public MovingPlatform(
             int screen,
             Texture2D texture,
             List<Waypoint> waypoints,
-            Point textureOffset)
+            Point textureOffset,
+            IPlatformActivation activation)
         {
             Screen = screen;
             Waypoints = waypoints;
             CurrentPosition = Waypoints[0].Position;
             _sprite = Sprite.CreateSprite(texture);
             _textureOffset = textureOffset;
-        }
-
-        public static MovingPlatform FromXmlData(MovingPlatformXml data)
-        {
-            var hitboxTexture = MovingPlatformLoader.LoadTexture(data.HitboxName, "hitboxes");
-            var hitbox = MovingPlatformHitbox.FromTexture(hitboxTexture);
-            
-            var texture = MovingPlatformLoader.LoadTexture(data.TextureName, "textures");
-
-            var waypoints = data.GetWaypointsFromData();
-            
-            if (waypoints.Count == 0) 
-                return null;
-            
-            var textureOffset = new Point(data.TextureOffsetX ?? 0, data.TextureOffsetY ?? 0);
-            
-            var platform = new MovingPlatform(data.ScreenIndex, texture, waypoints, textureOffset);
-            
-            // plus tard, ajouter une factory pour les blocks
-            for (var i = 0; i < hitbox.Height * hitbox.Width; i++)
-            {
-                var xPosition = (i % hitbox.Width) * 8;
-                var yPosition = (i / hitbox.Width) * 8;
-                
-                if (hitbox.Hitbox[i].A == 0)
-                {
-                    continue;
-                }
-                platform.AddBlock(new MovingBlock(new Point(xPosition, yPosition), platform));
-            }
-            
-            return platform;
+            _activation = activation;
         }
         
-        private void AddBlock(MovingBlock block)
+        public void SetLever(Lever lever)
+        {
+            Lever = lever;
+        }
+        
+        public void SetPlatformActivation(IPlatformActivation activation)
+        {
+            _activation = activation;
+        }
+        
+        public void AddBlock(MovingBlock block)
         {
             _blocks.Add(block);
         }
@@ -82,7 +68,32 @@ namespace MovingBlockMod
         
         public void Update1()
         {
-            CurrentPosition = GetPlatformPosition();
+            var time = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
+            var modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
+            
+            var waypointIndex = GetWaypointIndex(modTime);
+            
+            _activation.UpdatePlatformState(Lever.State, waypointIndex);
+            
+            if (!_activation.PlatformState)
+            {
+                if (_activation.PlatformStateCache)
+                {
+                    _lastTimeActive = time;
+                }
+                return;
+            }
+
+            if (!_activation.PlatformStateCache)
+            {
+                _delay += time - _lastTimeActive;
+            }
+            
+
+            modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
+            waypointIndex = GetWaypointIndex(modTime);
+            
+            CurrentPosition = GetPlatformPosition(modTime, waypointIndex);
             foreach (var block in _blocks)
             {
                 block.UpdatePosition();
@@ -91,40 +102,33 @@ namespace MovingBlockMod
         
         public override void Draw()
         {
-            if (EntityManager.instance.Find<PlayerEntity>() == null)
-            {
-                return;
-            }
-            if (LevelManager.CurrentScreen.GetIndex0() != Screen)
+            if (EntityManager.instance.Find<PlayerEntity>() == null
+                || LevelManager.CurrentScreen.GetIndex0() != Screen)
             {
                 return;
             }
             _sprite.Draw(Camera.TransformVector2((CurrentPosition - _textureOffset).ToVector2()));
         }
         
-        private Point GetPlatformPosition()
+        private Point GetPlatformPosition(float modTime, int index)
         {
-            var timeSpan = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
-            var time = (float)timeSpan.TotalSeconds;
-            
-            var modTime = time % Waypoints[Waypoints.Count - 1].Time;
-            
+            var timeRatio = (modTime - Waypoints[index].Time) / (Waypoints[index + 1].Time - Waypoints[index].Time);
+            var x = Waypoints[index].X + (Waypoints[index + 1].X - Waypoints[index].X) * timeRatio;
+            var y = Waypoints[index].Y + (Waypoints[index + 1].Y - Waypoints[index].Y) * timeRatio;
+            return new Point((int)x, (int)y);
+        }
+        
+        private int GetWaypointIndex(float modTime)
+        {
             for (var i = 0; i < Waypoints.Count - 1; i++)
             {
                 if (!(modTime >= Waypoints[i].Time && modTime < Waypoints[i + 1].Time))
                 {
                     continue;
                 }
-                var time1 = Waypoints[i].Time;
-                var time2 = Waypoints[i + 1].Time;
-                var timeDiff = time2 - time1;
-                var timeIntoSegment = modTime - time1;
-                var timeRatio = timeIntoSegment / timeDiff;
-                var x = Waypoints[i].X + (Waypoints[i + 1].X - Waypoints[i].X) * timeRatio;
-                var y = Waypoints[i].Y + (Waypoints[i + 1].Y - Waypoints[i].Y) * timeRatio;
-                return new Point((int)x, (int)y);
+                return i;
             }
-            return Point.Zero;
+            return 0;
         }
     }
 }
