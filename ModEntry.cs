@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JumpKing.Mods;
 using System.Diagnostics;
@@ -5,12 +6,19 @@ using EntityComponent;
 using HarmonyLib;
 using JumpKing.Player;
 using JumpKing;
+using JumpKing.API;
 
 namespace MovingBlockMod
 {
     [JumpKingMod("elmousse.MovingBlockMod")]
     public class ModEntry
     {
+        private static readonly Dictionary<Type, Func<IBlockBehaviour>> BlockBehaviours = new Dictionary<Type, Func<IBlockBehaviour>>
+        {
+            { typeof(MovingBlock), () => new MovingBlockBehaviour() },
+            { typeof(LeverBlock), () => new LeverBlockBehaviour() }
+        };
+
         [BeforeLevelLoad]
         public static void BeforeLevelLoad()
         {
@@ -21,18 +29,26 @@ namespace MovingBlockMod
             var harmony = new Harmony("elmousse.MovingBlockMod");
             harmony.PatchAll();
         }
-        
+
         [OnLevelStart]
         public static void OnLevelStart()
         {
             var player = EntityManager.instance.Find<PlayerEntity>();
-            player?.m_body?.RegisterBlockBehaviour(typeof(MovingBlock), new MovingBlockBehaviour());
+            if (player?.m_body == null)
+            {
+                return;
+            }
+            foreach (var blockBehaviour in BlockBehaviours)
+            {
+                player.m_body.RegisterBlockBehaviour(blockBehaviour.Key, blockBehaviour.Value());
+            }
         }
-        
+
         [OnLevelUnload]
         public static void OnLevelUnload()
         {
             MovingPlatformManager.Instance.Reset();
+            LeverManager.Instance.Reset();
         }
     }
 }

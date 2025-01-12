@@ -54,11 +54,24 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="AchievementManagerWrapper.cs" />
-        <Compile Include="LeverMode.cs" />
-        <Compile Include="MovingPlatformFactory.cs" />
+        <Compile Include="Factory\LeverFactory.cs" />
+        <Compile Include="Factory\MovingPlatformFactory.cs" />
+        <Compile Include="IActivationType.cs" />
+        <Compile Include="IPlatformActivation.cs" />
+        <Compile Include="Lever.cs" />
+        <Compile Include="LeverBlock.cs" />
+        <Compile Include="LeverBlockBehaviour.cs" />
+        <Compile Include="LeverManager.cs" />
         <Compile Include="MovingPlatformHitbox.cs" />
+        <Compile Include="OverActivation.cs" />
         <Compile Include="Patches\LoadBlockIntervalPatch.cs" />
         <Compile Include="Patches\WindExecuteBehaviourPatch.cs" />
+        <Compile Include="PlatformActivationAlwaysOn.cs" />
+        <Compile Include="PlatformActivationOffAfterLoop.cs" />
+        <Compile Include="PlatformActivationOffAfterOneWay.cs" />
+        <Compile Include="PlatformActivationOnActiveOffInactive.cs" />
+        <Compile Include="SignalActivation.cs" />
+        <Compile Include="SwitchActivation.cs" />
         <Compile Include="Waypoint.cs" />
         <Compile Include="XmlData\LeverXml.cs" />
         <Compile Include="XmlData\MovingPlatformXml.cs" />
@@ -68,12 +81,15 @@
         <Compile Include="MovingBlock.cs" />
         <Compile Include="MovingBlockBehaviour.cs" />
         <Compile Include="MovingPlatform.cs" />
-        <Compile Include="MovingPlatformLoader.cs" />
+        <Compile Include="Loader.cs" />
         <Compile Include="MovingPlatformManager.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Utils\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

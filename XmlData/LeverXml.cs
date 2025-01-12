@@ -3,17 +3,42 @@ using System.Xml.Serialization;
 
 namespace MovingBlockMod.XmlData
 {
+    [XmlRoot("Levers")]
+    public class LeversXml
+    {
+        [XmlElement("Lever")]
+        public List<LeverXml> Levers { get; set; } = new List<LeverXml>();
+    }
     public class LeverXml
     {
         [XmlElement("id")]
         public string LeverId { get; set; }
         
-        [XmlArray("ActivationZone")]
-        [XmlArrayItem("Rectangle")]
-        public List<RectangleXml> Waypoints { get; set; } = new List<RectangleXml>();
+        [XmlElement("startingState")]
+        public bool StartingState { get; set; }
+        
+        [XmlElement("activationType")]
+        public string SerializedActivationType { get; set; }
+        public IActivationType ActivationType
+        {
+            get
+            {
+                switch (SerializedActivationType)
+                {
+                    case "over" : return new OverActivation();
+                    case "switch" : return new SwitchActivation();
+                    case "signal" : return new SignalActivation();
+                    default: return null;
+                }
+            }
+        }
+
+        [XmlArray("ActivationZones")]
+        [XmlArrayItem("Zone")]
+        public List<ZoneXml> ActivationZones { get; set; } = new List<ZoneXml>();
     }
     
-    public class RectangleXml
+    public class ZoneXml
     {
         [XmlElement("screen")]
         public int Screen { get; set; }

@@ -30,6 +30,10 @@ namespace MovingBlockMod.XmlData
         [XmlElement("leverId")]
         public string LeverId { get; set; }
         
+        [XmlElement("movingBehaviour")]
+        public string SerializedMovingBehaviour { get; set; }
+        
+        
         [XmlArray("Waypoints")]
         [XmlArrayItem("Waypoint")]
         public List<WaypointXml> Waypoints { get; set; } = new List<WaypointXml>();
