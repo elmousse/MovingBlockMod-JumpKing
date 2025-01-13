@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MovingBlockMod.Entities.LeverEntity;
+using MovingBlockMod.Entities;
 
 namespace MovingBlockMod
 {

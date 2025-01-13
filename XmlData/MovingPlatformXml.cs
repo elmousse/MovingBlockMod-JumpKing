@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Microsoft.Xna.Framework;
-using MovingBlockMod.Entities.MovingPlatform;
+using MovingBlockMod.Entities.MovingPlatformComponents;
 
 namespace MovingBlockMod.XmlData
 {

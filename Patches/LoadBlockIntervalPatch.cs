@@ -6,7 +6,7 @@ using HarmonyLib;
 using JumpKing;
 using JumpKing.Level;
 using JumpKing.Level.Sampler;
-using MovingBlockMod.Entities.MovingPlatformEntity;
+using MovingBlockMod.Entities.MovingPlatformComponents;
 using MovingBlockMod.Factories;
 using MovingBlockMod.Utils;
 

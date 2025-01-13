@@ -57,18 +57,19 @@
         <Compile Include="BlockBehaviours\MovingBlockBehaviour.cs" />
         <Compile Include="Blocks\LeverBlock.cs" />
         <Compile Include="Blocks\MovingBlock.cs" />
-        <Compile Include="Entities\LeverEntity\IActivationType.cs" />
-        <Compile Include="Entities\LeverEntity\Lever.cs" />
-        <Compile Include="Entities\LeverEntity\OverActivation.cs" />
-        <Compile Include="Entities\LeverEntity\SignalActivation.cs" />
-        <Compile Include="Entities\LeverEntity\SwitchActivation.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\IPlatformActivation.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\MovingPlatform.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\PlatformActivationAlwaysOn.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\PlatformActivationOffAfterLoop.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\PlatformActivationOffAfterOneWay.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\PlatformActivationOnActiveOffInactive.cs" />
-        <Compile Include="Entities\MovingPlatformEntity\Waypoint.cs" />
+        <Compile Include="Entities\Lever.cs" />
+        <Compile Include="Entities\LeverComponents\IActivationType.cs" />
+        <Compile Include="Entities\LeverComponents\LeverTrigger.cs" />
+        <Compile Include="Entities\LeverComponents\OverActivation.cs" />
+        <Compile Include="Entities\LeverComponents\SignalActivation.cs" />
+        <Compile Include="Entities\LeverComponents\SwitchActivation.cs" />
+        <Compile Include="Entities\MovingPlatform.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\IPlatformActivation.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\PlatformActivationAlwaysOn.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\PlatformActivationOffAfterLoop.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\PlatformActivationOffAfterOneWay.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\PlatformActivationOnActiveOffInactive.cs" />
+        <Compile Include="Entities\MovingPlatformComponents\Waypoint.cs" />
         <Compile Include="Factories\LeverFactory.cs" />
         <Compile Include="Factories\MovingPlatformFactory.cs" />
         <Compile Include="Factories\MovingPlatformHitbox.cs" />
@@ -85,9 +86,6 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Entities\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

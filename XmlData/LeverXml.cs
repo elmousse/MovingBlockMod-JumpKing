@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using MovingBlockMod.Entities.LeverEntity;
+using MovingBlockMod.Entities.LeverComponents;
 
 namespace MovingBlockMod.XmlData
 {

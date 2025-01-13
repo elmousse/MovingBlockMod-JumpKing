@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JumpKing.Level;
 using Microsoft.Xna.Framework;
-using MovingBlockMod.Entities.LeverEntity;
+using MovingBlockMod.Entities;
 
 namespace MovingBlockMod.Blocks
 {

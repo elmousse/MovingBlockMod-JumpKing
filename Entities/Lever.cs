@@ -7,15 +7,16 @@ using JumpKing.Level;
 using JumpKing.Player;
 using Microsoft.Xna.Framework.Graphics;
 using MovingBlockMod.Blocks;
+using MovingBlockMod.Entities.LeverComponents;
 
-namespace MovingBlockMod.Entities.LeverEntity
+namespace MovingBlockMod.Entities
 {
     public class Lever : Entity
     {
         public string Id { get; private set; }
         public bool State { get; private set; }
         public List<LeverBlock> Blocks { get; private set; }
-        private List<MovingPlatformEntity.MovingPlatform> _platforms = new List<MovingPlatformEntity.MovingPlatform>();
+        private List<MovingPlatform> _platforms = new List<MovingPlatform>();
         private IActivationType _activation;
         
         private List<Texture2D> _textures;
@@ -38,7 +39,7 @@ namespace MovingBlockMod.Entities.LeverEntity
             Blocks.Add(block);
         }
         
-        public void AddPlatform(MovingPlatformEntity.MovingPlatform platform)
+        public void AddPlatform(MovingPlatform platform)
         {
             _platforms.Add(platform);
         }
@@ -83,13 +84,5 @@ namespace MovingBlockMod.Entities.LeverEntity
             var trigger = GetTrigger();
             UpdateState(trigger);
         }
-    }
-    
-    public enum LeverTrigger
-    {
-        Enter,
-        Exit,
-        On,
-        Out
     }
 }

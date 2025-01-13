@@ -1,4 +1,4 @@
-namespace MovingBlockMod.Entities.LeverEntity
+namespace MovingBlockMod.Entities.LeverComponents
 {
     public class SwitchActivation : IActivationType
     {

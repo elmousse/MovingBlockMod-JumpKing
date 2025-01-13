@@ -1,6 +1,6 @@
 using System;
 
-namespace MovingBlockMod.Entities.LeverEntity
+namespace MovingBlockMod.Entities.LeverComponents
 {
     public interface IActivationType
     {

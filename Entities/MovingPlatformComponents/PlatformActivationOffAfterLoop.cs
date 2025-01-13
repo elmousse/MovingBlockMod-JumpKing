@@ -1,21 +1,21 @@
-namespace MovingBlockMod.Entities.MovingPlatformEntity
+namespace MovingBlockMod.Entities.MovingPlatformComponents
 {
-    public class PlatformActivationOffAfterOneWay : IPlatformActivation
+    public class PlatformActivationOffAfterLoop : IPlatformActivation
     {
         public bool PlatformState { get; set; } = true;
         public bool PlatformStateCache { get; set; } = true;
         private int _maxWaypoint;
         private float _travelRatioCache;
         
-        public PlatformActivationOffAfterOneWay(int maxWaypoint)
+        public PlatformActivationOffAfterLoop(int maxWaypoint)
         {
-            _maxWaypoint = maxWaypoint - 1;
+            _maxWaypoint = maxWaypoint - 2;
         }
         
         public void UpdatePlatformState(bool leverState, int waypointIndex)
         {
             PlatformStateCache = PlatformState;
-            var travelRatio = (float)(waypointIndex + 1) / _maxWaypoint;
+            var travelRatio = (float) waypointIndex / _maxWaypoint;
             if (leverState)
             {
                 PlatformState = true;
@@ -23,7 +23,7 @@ namespace MovingBlockMod.Entities.MovingPlatformEntity
                 return;
             }
             
-            if ((_travelRatioCache == 1f && travelRatio != 1f) || (_travelRatioCache == 0.5f && travelRatio > 0.5f))
+            if (_travelRatioCache == 1f && travelRatio == 0f)
             {
                 PlatformState = false;
             }

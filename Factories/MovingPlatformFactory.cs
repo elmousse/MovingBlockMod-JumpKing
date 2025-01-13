@@ -1,10 +1,9 @@
-
-
 using JumpKing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MovingBlockMod.Blocks;
-using MovingBlockMod.Entities.MovingPlatformEntity;
+using MovingBlockMod.Entities;
+using MovingBlockMod.Entities.MovingPlatformComponents;
 using MovingBlockMod.Utils;
 using MovingBlockMod.XmlData;
 

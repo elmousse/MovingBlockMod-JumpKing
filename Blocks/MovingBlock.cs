@@ -1,6 +1,6 @@
 using JumpKing.Level;
 using Microsoft.Xna.Framework;
-using MovingBlockMod.Entities.MovingPlatformEntity;
+using MovingBlockMod.Entities;
 
 namespace MovingBlockMod.Blocks
 {

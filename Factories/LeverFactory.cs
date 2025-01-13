@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using MovingBlockMod.Blocks;
-using MovingBlockMod.Entities.LeverEntity;
+using MovingBlockMod.Entities;
 using MovingBlockMod.XmlData;
 
 namespace MovingBlockMod.Factories
