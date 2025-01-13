@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MovingBlockMod.XmlData;
 
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Utils
 {
     public class Loader
     {

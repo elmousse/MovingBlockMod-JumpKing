@@ -5,8 +5,9 @@ using System.Diagnostics;
 using EntityComponent;
 using HarmonyLib;
 using JumpKing.Player;
-using JumpKing;
 using JumpKing.API;
+using MovingBlockMod.BlockBehaviours;
+using MovingBlockMod.Blocks;
 
 namespace MovingBlockMod
 {

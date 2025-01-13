@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
+using MovingBlockMod.Blocks;
+using MovingBlockMod.Entities.LeverEntity;
 using MovingBlockMod.XmlData;
 
-namespace MovingBlockMod.Factory
+namespace MovingBlockMod.Factories
 {
     public class LeverFactory
     {

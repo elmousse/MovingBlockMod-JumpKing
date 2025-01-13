@@ -1,4 +1,4 @@
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.LeverEntity
 {
     public class OverActivation : IActivationType
     {

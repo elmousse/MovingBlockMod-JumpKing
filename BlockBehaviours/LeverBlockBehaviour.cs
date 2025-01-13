@@ -1,8 +1,9 @@
 using JumpKing.API;
 using JumpKing.BodyCompBehaviours;
 using JumpKing.Level;
+using MovingBlockMod.Blocks;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.BlockBehaviours
 {
     public class LeverBlockBehaviour : IBlockBehaviour
     {

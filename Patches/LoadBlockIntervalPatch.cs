@@ -1,13 +1,14 @@
 using System.Reflection;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
 using JumpKing;
 using JumpKing.Level;
 using JumpKing.Level.Sampler;
-using MovingBlockMod.Factory;
+using MovingBlockMod.Entities.MovingPlatformEntity;
+using MovingBlockMod.Factories;
+using MovingBlockMod.Utils;
 
 namespace MovingBlockMod.Patches
 {

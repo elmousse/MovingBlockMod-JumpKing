@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JumpKing.BodyCompBehaviours;
+using MovingBlockMod.Entities.LeverEntity;
 
 namespace MovingBlockMod
 {

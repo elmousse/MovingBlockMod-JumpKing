@@ -1,8 +1,9 @@
 using JumpKing.API;
 using JumpKing.BodyCompBehaviours;
 using JumpKing.Level;
- 
-namespace MovingBlockMod
+using MovingBlockMod.Blocks;
+
+namespace MovingBlockMod.BlockBehaviours
 {
     /// <summary>
     /// An implementation of <see cref="IBlockBehaviour"/> representing how the <see cref="MovingBlock"/> will

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.MovingPlatform
 {
     public class Waypoint
     {

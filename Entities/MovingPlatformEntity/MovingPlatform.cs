@@ -6,9 +6,13 @@ using JumpKing.Level;
 using JumpKing.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MovingBlockMod.Blocks;
+using MovingBlockMod.Entities.LeverEntity;
+using MovingBlockMod.Entities.MovingPlatform;
+using MovingBlockMod.Utils;
 using MovingBlockMod.XmlData;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.MovingPlatformEntity
 {
     public class MovingPlatform : Entity
     {

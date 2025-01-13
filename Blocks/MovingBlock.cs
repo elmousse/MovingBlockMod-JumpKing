@@ -1,7 +1,8 @@
 using JumpKing.Level;
 using Microsoft.Xna.Framework;
+using MovingBlockMod.Entities.MovingPlatformEntity;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Blocks
 {
     public class MovingBlock : IBlock, IBlockDebugColor
     {

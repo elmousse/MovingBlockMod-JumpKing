@@ -1,14 +1,14 @@
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.LeverEntity
 {
-    public class SignalActivation : IActivationType
+    public class SwitchActivation : IActivationType
     {
         public bool GetState(LeverTrigger trigger, bool currentState)
         {
             if (trigger == LeverTrigger.Enter)
             {
-                return true;
+                return !currentState;
             }
-            return false;
+            return currentState;
         }
     }
 }

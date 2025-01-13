@@ -3,9 +3,12 @@
 using JumpKing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MovingBlockMod.Blocks;
+using MovingBlockMod.Entities.MovingPlatformEntity;
+using MovingBlockMod.Utils;
 using MovingBlockMod.XmlData;
 
-namespace MovingBlockMod.Factory
+namespace MovingBlockMod.Factories
 {
     public class MovingPlatformFactory
     {

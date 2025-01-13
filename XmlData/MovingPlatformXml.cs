@@ -2,9 +2,18 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Microsoft.Xna.Framework;
+using MovingBlockMod.Entities.MovingPlatform;
 
 namespace MovingBlockMod.XmlData
 {
+    [XmlRoot("MovingPlatforms")]
+    public class MovingPlatformsXml
+    {
+        [XmlElement("MovingPlatform")]
+        public List<MovingPlatformXml> Platforms { get; set; } = new List<MovingPlatformXml>();
+    }
+    
     public class MovingPlatformXml
     {
         public int ScreenIndex { get; set; }
@@ -109,6 +118,29 @@ namespace MovingBlockMod.XmlData
             }
 
             return waypointsWithTime == Waypoints.Count - 1;
+        }
+    }
+    
+    public class WaypointXml
+    {
+        [XmlElement("X")]
+        public int X { get; set; }
+
+        [XmlElement("Y")]
+        public int Y { get; set; }
+
+        [XmlElement("time", IsNullable = true)]
+        public float? Time { get; set; }
+        
+        [XmlElement("relativeTime", IsNullable = true)]
+        public float? RelativeTime { get; set; }
+        
+        public Point Position => new Point(X, Y - _parentPlatform.ScreenIndex * 45 * 8);
+        
+        private MovingPlatformXml _parentPlatform;
+        public void Setup(MovingPlatformXml parentPlatform)
+        {
+            _parentPlatform = parentPlatform;
         }
     }
 }

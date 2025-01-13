@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using JumpKing.Level;
 using Microsoft.Xna.Framework;
+using MovingBlockMod.Entities.LeverEntity;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Blocks
 {
     public class LeverBlock : IBlock, IBlockDebugColor
     {

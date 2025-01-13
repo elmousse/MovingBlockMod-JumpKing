@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Utils
 {
     public class AchievementManagerWrapper
     {

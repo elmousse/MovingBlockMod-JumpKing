@@ -1,23 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using EntityComponent;
 using JumpKing;
 using JumpKing.API;
-using JumpKing.BodyCompBehaviours;
 using JumpKing.Level;
 using JumpKing.Player;
 using Microsoft.Xna.Framework.Graphics;
+using MovingBlockMod.Blocks;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.LeverEntity
 {
     public class Lever : Entity
     {
         public string Id { get; private set; }
         public bool State { get; private set; }
         public List<LeverBlock> Blocks { get; private set; }
-        private List<MovingPlatform> _platforms = new List<MovingPlatform>();
+        private List<MovingPlatformEntity.MovingPlatform> _platforms = new List<MovingPlatformEntity.MovingPlatform>();
         private IActivationType _activation;
         
         private List<Texture2D> _textures;
@@ -40,7 +38,7 @@ namespace MovingBlockMod
             Blocks.Add(block);
         }
         
-        public void AddPlatform(MovingPlatform platform)
+        public void AddPlatform(MovingPlatformEntity.MovingPlatform platform)
         {
             _platforms.Add(platform);
         }

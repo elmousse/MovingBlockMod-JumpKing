@@ -1,4 +1,4 @@
-namespace MovingBlockMod
+namespace MovingBlockMod.Entities.MovingPlatformEntity
 {
     public interface IPlatformActivation
     {

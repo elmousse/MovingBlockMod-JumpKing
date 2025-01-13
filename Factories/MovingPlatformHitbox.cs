@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MovingBlockMod
+namespace MovingBlockMod.Factories
 {
     public class MovingPlatformHitbox
     {
