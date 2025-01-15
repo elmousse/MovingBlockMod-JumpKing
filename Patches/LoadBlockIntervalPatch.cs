@@ -76,7 +76,7 @@ namespace MovingBlockMod.Patches
             }
             foreach (var lever in LeverManager.Instance.Levers)
             {
-                var blocks = lever.Blocks.FindAll(b => b.Screen == p_screen);
+                var blocks = lever.Zones.FindAll(zone => zone.Screen == p_screen).Select(zone => zone.Block).ToList();
                 if (!blocks.Any())
                 {
                     continue;

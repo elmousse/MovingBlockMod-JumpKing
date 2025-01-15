@@ -11,16 +11,13 @@ namespace MovingBlockMod.Blocks
         
         private Rectangle _collider;
         private readonly Lever _parentLever;
-        public readonly int Screen;
 
         public LeverBlock(
             Rectangle collider,
-            Lever parentLever,
-            int screen)
+            Lever parentLever)
         {
             _parentLever = parentLever;
             _collider = collider;
-            Screen = screen;
         }
         
         public Rectangle GetRect()

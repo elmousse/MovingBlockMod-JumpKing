@@ -5,7 +5,7 @@ namespace MovingBlockMod.Entities.MovingPlatformComponents
         public bool PlatformState { get; set; } = true;
         public bool PlatformStateCache { get; set; } = true;
         private int _maxWaypoint;
-        private float _travelRatioCache;
+        private float _travelRatioCache = 1f;
         
         public PlatformActivationOffAfterLoop(int maxWaypoint)
         {

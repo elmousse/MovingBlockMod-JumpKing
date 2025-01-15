@@ -44,6 +44,15 @@ namespace MovingBlockMod.XmlData
         [XmlElement("screen")]
         public int Screen { get; set; }
         
+        [XmlElement("textureName")]
+        public string TextureName { get; set; }
+        
+        [XmlElement("textureOffsetX")]
+        public int? TextureOffsetX { get; set; }
+        
+        [XmlElement("textureOffsetY")]
+        public int? TextureOffsetY { get; set; }
+        
         [XmlElement("X")]
         public int X { get; set; }
         

@@ -5,6 +5,7 @@ using JumpKing;
 using JumpKing.API;
 using JumpKing.Level;
 using JumpKing.Player;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MovingBlockMod.Blocks;
 using MovingBlockMod.Entities.LeverComponents;
@@ -15,12 +16,11 @@ namespace MovingBlockMod.Entities
     {
         public string Id { get; private set; }
         public bool State { get; private set; }
-        public List<LeverBlock> Blocks { get; private set; }
+        private IActivationType Activation { get; set; }
+        public List<LeverZone> Zones { get; private set; } = new List<LeverZone>();
+        public List<LeverBlock> Blocks => Zones.Select(zone => zone.Block).ToList();
         private List<MovingPlatform> _platforms = new List<MovingPlatform>();
-        private IActivationType _activation;
         
-        private List<Texture2D> _textures;
-        private Sprite _sprite;
         private bool _onLeverCache;
         
         public Lever(
@@ -28,15 +28,14 @@ namespace MovingBlockMod.Entities
             string id,
             bool startingState)
         {
-            _activation = activation;
+            Activation = activation;
             Id = id;
-            Blocks = new List<LeverBlock>();
             State = startingState;
         }
         
-        public void AddBlock(LeverBlock block)
+        public void AddZone(LeverZone zone)
         {
-            Blocks.Add(block);
+            Zones.Add(zone);
         }
         
         public void AddPlatform(MovingPlatform platform)
@@ -54,29 +53,35 @@ namespace MovingBlockMod.Entities
             {
                 return LeverTrigger.Out;
             }
-            var blocks = collisionInfo.GetCollidedBlocks<LeverBlock>().Intersect(Blocks).ToList();
+
+            var collidedBlocks = collisionInfo.GetCollidedBlocks<LeverBlock>().Intersect(Blocks).ToList();
             
-            var onLever = blocks.Any();
-            var trigger = LeverTrigger.Out;
-            if (onLever && !_onLeverCache)
+            var onLever = collidedBlocks.Any();
+            LeverTrigger trigger;
+
+            switch (onLever)
             {
-                trigger = LeverTrigger.Enter;
+                case true when !_onLeverCache:
+                    trigger = LeverTrigger.Enter;
+                    break;
+                case false when _onLeverCache:
+                    trigger = LeverTrigger.Exit;
+                    break;
+                case true:
+                    trigger = LeverTrigger.On;
+                    break;
+                default:
+                    trigger = LeverTrigger.Out;
+                    break;
             }
-            else if (!onLever && _onLeverCache)
-            {
-                trigger = LeverTrigger.Exit;
-            }
-            else if (onLever)
-            {
-                trigger = LeverTrigger.On;
-            }
+
             _onLeverCache = onLever;
             return trigger;
         }
         
         private void UpdateState(LeverTrigger trigger)
         {
-            State = _activation.GetState(trigger, State);
+            State = Activation.GetState(trigger, State);
         }
 
         public void Update()

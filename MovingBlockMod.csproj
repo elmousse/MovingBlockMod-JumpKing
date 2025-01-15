@@ -63,6 +63,7 @@
         <Compile Include="Entities\LeverComponents\OverActivation.cs" />
         <Compile Include="Entities\LeverComponents\SignalActivation.cs" />
         <Compile Include="Entities\LeverComponents\SwitchActivation.cs" />
+        <Compile Include="Entities\LeverZone.cs" />
         <Compile Include="Entities\MovingPlatform.cs" />
         <Compile Include="Entities\MovingPlatformComponents\IPlatformActivation.cs" />
         <Compile Include="Entities\MovingPlatformComponents\PlatformActivationAlwaysOn.cs" />
