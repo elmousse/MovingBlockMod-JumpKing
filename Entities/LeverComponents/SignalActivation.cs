@@ -9,7 +9,18 @@ namespace MovingBlockMod.Entities.LeverComponents
         
         public bool GetState(LeverTrigger trigger, bool currentState)
         {
+            var currentTime = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
             if (trigger == LeverTrigger.Enter)
+            {
+                LastTimeOn = currentTime;
+                return true;
+            }
+            if (currentTime < TimeSpan.FromSeconds(0.05))
+            {
+                return false;
+            }
+            var elapsedTime = currentTime - LastTimeOn;
+            if (elapsedTime.TotalSeconds < 0.05)
             {
                 return true;
             }
@@ -20,7 +31,6 @@ namespace MovingBlockMod.Entities.LeverComponents
         {
             if (currentState)
             {
-                LastTimeOn = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
                 return true;
             }
             var elapsedTime = (TimeSpan)AchievementManagerWrapper.GetTimeSpan() - LastTimeOn;
