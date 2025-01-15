@@ -15,5 +15,10 @@ namespace MovingBlockMod.Entities.LeverComponents
                     return false;
             }
         }
+        
+        public bool GetVisualState(bool currentState)
+        {
+            return currentState;
+        }
     }
 }

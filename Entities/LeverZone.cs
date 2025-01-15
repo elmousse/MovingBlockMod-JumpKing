@@ -46,7 +46,7 @@ namespace MovingBlockMod.Entities
             {
                 return;
             }
-            var i = ParentLever.State ? 0 : 1;
+            var i = ParentLever.GetVisualState() ? 0 : 1;
             Sprites[i].Draw(Camera.TransformVector2((Block.GetRect().Location - TextureOffset).ToVector2()));
         }
     }

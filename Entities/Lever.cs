@@ -89,5 +89,10 @@ namespace MovingBlockMod.Entities
             var trigger = GetTrigger();
             UpdateState(trigger);
         }
+        
+        public bool GetVisualState()
+        {
+            return Activation.GetVisualState(State);
+        }
     }
 }
