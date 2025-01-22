@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JumpKing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,8 +55,22 @@ namespace MovingBlockMod.Factories
                     platformActivation = new PlatformActivationAlwaysOn();
                     break;
             }
+
+            var screens = new List<int>();
+            foreach (var w in data.Waypoints)
+            {
+                var screen = (w.ScreenOffset ?? 0) + data.ScreenIndex;
+                if (!screens.Contains(screen))
+                {
+                    screens.Add(screen);
+                }
+                if (w.Y + hitbox.Height * 8 > 360)
+                {
+                    screens.Add(screen - 1);
+                }
+            }
         
-            var platform = new MovingPlatform(data.ScreenIndex, texture, waypoints, textureOffset, platformActivation);
+            var platform = new MovingPlatform(screens.ToArray(), texture, waypoints, textureOffset, platformActivation, hitbox.Height * 8);
         
             for (var i = 0; i < hitbox.Height * hitbox.Width; i++)
             {

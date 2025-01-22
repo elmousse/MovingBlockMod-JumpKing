@@ -68,7 +68,7 @@ namespace MovingBlockMod.Patches
             var blockList = new List<IBlock>(__result);
             foreach (var movingPlatform in MovingPlatformManager.Instance.Platforms)
             {
-                if (movingPlatform.Screen != p_screen)
+                if (!movingPlatform.PotentialScreens.Contains(p_screen))
                 {
                     continue;
                 }
