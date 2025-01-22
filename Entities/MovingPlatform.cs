@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EntityComponent;
 using JumpKing;
 using JumpKing.Level;
@@ -18,12 +19,27 @@ namespace MovingBlockMod.Entities
         public Lever Lever { get; private set; }
         private readonly List<MovingBlock> _blocks = new List<MovingBlock>();
         public List<MovingBlock> Blocks => _blocks;
-        public int Screen { get; }
+        public int[] PotentialScreens { get; }
+        public int[] CurrentScreens
+        {
+            get
+            {
+                var screen = ((CurrentPosition.Y % 360 + 360) % 360 - CurrentPosition.Y) / 360;
+                if ((((CurrentPosition.Y + Height) % 360 + 360) % 360 - CurrentPosition.Y + Height)/ 360 == screen)
+                {
+                    return new[] {screen};
+                }
+                return new[] {screen, screen - 1};
+            }
+        }
+
+        private int Height { get; }
+        
         private readonly Sprite _sprite;
         
         private List<Waypoint> Waypoints { get; }
         public Point CurrentPosition { get; private set; }
-        private Point _textureOffset { get; }
+        private Point TextureOffset { get; }
         
         private IPlatformActivation _activation;
         
@@ -31,18 +47,20 @@ namespace MovingBlockMod.Entities
         private TimeSpan _lastTimeActive = TimeSpan.Zero;
         
         public MovingPlatform(
-            int screen,
+            int[] screens,
             Texture2D texture,
             List<Waypoint> waypoints,
             Point textureOffset,
-            IPlatformActivation activation)
+            IPlatformActivation activation,
+            int height)
         {
-            Screen = screen;
+            PotentialScreens = screens;
             Waypoints = waypoints;
             CurrentPosition = Waypoints[0].Position;
             _sprite = Sprite.CreateSprite(texture);
-            _textureOffset = textureOffset;
+            TextureOffset = textureOffset;
             _activation = activation;
+            Height = height;
         }
         
         public void SetLever(Lever lever)
@@ -76,7 +94,7 @@ namespace MovingBlockMod.Entities
             
             var waypointIndex = GetWaypointIndex(modTime);
             
-            _activation.UpdatePlatformState(Lever.State, waypointIndex);
+            _activation.UpdatePlatformState(Lever?.State ?? true, waypointIndex);
             
             if (!_activation.PlatformState)
             {
@@ -106,11 +124,11 @@ namespace MovingBlockMod.Entities
         public override void Draw()
         {
             if (EntityManager.instance.Find<PlayerEntity>() == null
-                || LevelManager.CurrentScreen.GetIndex0() != Screen)
+                || !CurrentScreens.Contains(LevelManager.CurrentScreen.GetIndex0()))
             {
                 return;
             }
-            _sprite.Draw(Camera.TransformVector2((CurrentPosition - _textureOffset).ToVector2()));
+            _sprite.Draw(Camera.TransformVector2((CurrentPosition - TextureOffset).ToVector2()));
         }
         
         private Point GetPlatformPosition(float modTime, int index)

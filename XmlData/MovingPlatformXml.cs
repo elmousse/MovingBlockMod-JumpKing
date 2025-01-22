@@ -128,6 +128,9 @@ namespace MovingBlockMod.XmlData
 
         [XmlElement("Y")]
         public int Y { get; set; }
+        
+        [XmlElement("screenOffset", IsNullable = true)]
+        public int? ScreenOffset { get; set; }
 
         [XmlElement("time", IsNullable = true)]
         public float? Time { get; set; }
@@ -135,7 +138,7 @@ namespace MovingBlockMod.XmlData
         [XmlElement("relativeTime", IsNullable = true)]
         public float? RelativeTime { get; set; }
         
-        public Point Position => new Point(X, Y - _parentPlatform.ScreenIndex * 45 * 8);
+        public Point Position => new Point(X, Y - (_parentPlatform.ScreenIndex + (ScreenOffset ?? 0)) * 360);
         
         private MovingPlatformXml _parentPlatform;
         public void Setup(MovingPlatformXml parentPlatform)
