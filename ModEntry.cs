@@ -6,8 +6,10 @@ using EntityComponent;
 using HarmonyLib;
 using JumpKing.Player;
 using JumpKing.API;
+using JumpKing.BodyCompBehaviours;
 using MovingBlockMod.BlockBehaviours;
 using MovingBlockMod.Blocks;
+using MovingBlockMod.BodyCompBehaviours;
 
 namespace MovingBlockMod
 {
@@ -39,9 +41,26 @@ namespace MovingBlockMod
             {
                 return;
             }
+            
+            // Register the block behaviours
             foreach (var blockBehaviour in BlockBehaviours)
             {
                 player.m_body.RegisterBlockBehaviour(blockBehaviour.Key, blockBehaviour.Value());
+            }
+            
+            // Register the moving platform behaviour
+            var existingBehaviours = player.m_body.GetBehaviourList();
+
+            foreach (var behaviour in existingBehaviours)
+            {
+                if (behaviour.GetType().Name != "CacheCollisionStateBehaviour")
+                {
+                    continue;
+                }
+                var newBehaviour = new ExecuteMovingPlatformBehaviour();
+
+                player.m_body.RegisterBehaviourAfter(newBehaviour, behaviour);
+                break;
             }
         }
 

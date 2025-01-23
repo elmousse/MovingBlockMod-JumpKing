@@ -39,7 +39,10 @@ namespace MovingBlockMod.Entities
         
         private List<Waypoint> Waypoints { get; }
         public Point CurrentPosition { get; private set; }
+        private Point LastPosition { get; set; }
         private Point TextureOffset { get; }
+        
+        public Vector2 Velocity => new Vector2(CurrentPosition.X - LastPosition.X, CurrentPosition.Y - LastPosition.Y);
         
         private IPlatformActivation _activation;
         
@@ -78,17 +81,9 @@ namespace MovingBlockMod.Entities
             _blocks.Add(block);
         }
         
-        /*protected override void Update(float delta)
-        {
-            Position = UpdatePlatformPosition();
-            foreach (var block in _blocks)
-            {
-                block.UpdatePosition();
-            }
-        }*/
-        
         public void Update1()
         {
+            LastPosition = CurrentPosition;
             var time = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
             var modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
             
@@ -110,7 +105,6 @@ namespace MovingBlockMod.Entities
                 _delay += time - _lastTimeActive;
             }
             
-
             modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
             waypointIndex = GetWaypointIndex(modTime);
             

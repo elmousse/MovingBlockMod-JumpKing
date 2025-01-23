@@ -57,6 +57,7 @@
         <Compile Include="BlockBehaviours\MovingBlockBehaviour.cs" />
         <Compile Include="Blocks\LeverBlock.cs" />
         <Compile Include="Blocks\MovingBlock.cs" />
+        <Compile Include="BodyCompBehaviours\ExecuteMovingPlatformBehaviour.cs" />
         <Compile Include="Entities\Lever.cs" />
         <Compile Include="Entities\LeverComponents\IActivationType.cs" />
         <Compile Include="Entities\LeverComponents\LeverTrigger.cs" />
@@ -76,7 +77,6 @@
         <Compile Include="Factories\MovingPlatformHitbox.cs" />
         <Compile Include="LeverManager.cs" />
         <Compile Include="Patches\LoadBlockIntervalPatch.cs" />
-        <Compile Include="Patches\WindExecuteBehaviourPatch.cs" />
         <Compile Include="Utils\AchievementManagerWrapper.cs" />
         <Compile Include="Utils\Loader.cs" />
         <Compile Include="XmlData\LeverXml.cs" />

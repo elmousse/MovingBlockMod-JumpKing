@@ -8,7 +8,7 @@ namespace MovingBlockMod.Blocks
     {
         private Rectangle _collider;
         private readonly Point _platformRelativePosition;
-        private readonly MovingPlatform _parentPlatform;
+        public readonly MovingPlatform ParentPlatform;
         
         public Color DebugColor => new Color(233, 233, 233);
         
@@ -16,7 +16,7 @@ namespace MovingBlockMod.Blocks
             Point platformRelativePosition,
             MovingPlatform parentPlatform)
         {
-            _parentPlatform = parentPlatform;
+            ParentPlatform = parentPlatform;
             _platformRelativePosition = platformRelativePosition;
             var blockPosition = parentPlatform.CurrentPosition + platformRelativePosition;
             _collider = new Rectangle(blockPosition, new Point(8, 8));
@@ -41,7 +41,7 @@ namespace MovingBlockMod.Blocks
         
         public void UpdatePosition()
         {
-            var blockPosition = _parentPlatform.CurrentPosition + _platformRelativePosition;
+            var blockPosition = ParentPlatform.CurrentPosition + _platformRelativePosition;
             _collider.X = blockPosition.X;
             _collider.Y = blockPosition.Y;
         }

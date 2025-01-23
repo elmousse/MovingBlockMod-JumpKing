@@ -47,8 +47,8 @@ namespace MovingBlockMod.Entities
         {
             var player = EntityManager.instance.Find<PlayerEntity>();
             var hitbox = player.m_body.GetHitbox();
-            ICollisionQuery collisionQuery = LevelManager.Instance;
-            var collisionInfo = collisionQuery.GetCollisionInfo(hitbox);
+            ICollisionQuery levelManager = LevelManager.Instance;
+            var collisionInfo = levelManager.GetCollisionInfo(hitbox);
             if (collisionInfo == null)
             {
                 return LeverTrigger.Out;
