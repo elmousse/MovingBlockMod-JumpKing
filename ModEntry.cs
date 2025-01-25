@@ -59,7 +59,7 @@ namespace MovingBlockMod
                 }
                 var newBehaviour = new ExecuteMovingPlatformBehaviour();
 
-                player.m_body.RegisterBehaviourAfter(newBehaviour, behaviour);
+                player.m_body.RegisterBehaviourBefore(newBehaviour, behaviour);
                 break;
             }
         }

@@ -5,6 +5,7 @@ using JumpKing.API;
 using JumpKing.BodyCompBehaviours;
 using JumpKing.Level;
 using JumpKing.Player;
+using Microsoft.Xna.Framework;
 using MovingBlockMod.Blocks;
 
 namespace MovingBlockMod.BodyCompBehaviours
@@ -31,7 +32,7 @@ namespace MovingBlockMod.BodyCompBehaviours
             var preCollidedBlock = preMovingBlockOnScreen.FirstOrDefault(block => 
             {
                 var blockRect = block.GetRect();
-                return blockRect.Intersects(hitbox) || 
+                return blockRect.Intersects(hitbox) ||
                        (hitbox.Bottom == blockRect.Top && hitbox.Right > blockRect.Left && hitbox.Left < blockRect.Right);
             });
             
@@ -47,23 +48,43 @@ namespace MovingBlockMod.BodyCompBehaviours
             var collidedBlock = movingBlockOnScreen.FirstOrDefault(block => 
             {
                 var blockRect = block.GetRect();
-                return blockRect.Intersects(hitbox) || 
-                       (hitbox.Bottom == blockRect.Top && hitbox.Right > blockRect.Left && hitbox.Left < blockRect.Right);
+                return blockRect.Intersects(hitbox) ||
+                       (hitbox.Bottom == blockRect.Top && hitbox.Right > blockRect.Left && hitbox.Left < blockRect.Right) // ||
+                    // (hitbox.Right == blockRect.Left && hitbox.Bottom > blockRect.Top && hitbox.Top < blockRect.Bottom) ||
+                    // (hitbox.Right == blockRect.Left && hitbox.Bottom > blockRect.Top && hitbox.Top < blockRect.Bottom)
+                    ;
             });
+
+            MovingBlock velocityBlockReference;
             
             if (collidedBlock != null)
             {
-                player.m_body.Position.Y += collidedBlock.ParentPlatform.Velocity.Y;
-                player.m_body.Position.X += collidedBlock.ParentPlatform.Velocity.X;
+                velocityBlockReference = collidedBlock;
             }
             else if (preCollidedBlock != null)
             {
-                player.m_body.Position.Y += preCollidedBlock.ParentPlatform.Velocity.Y;
-                player.m_body.Position.X += preCollidedBlock.ParentPlatform.Velocity.X;
+                velocityBlockReference = preCollidedBlock;
+            }
+            else
+            {
+                return true;
             }
             
+            if 
+            
+            player.m_body.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
+            player.m_body.Position.X += velocityBlockReference.ParentPlatform.Velocity.X;
             
             return true;
+        }
+        
+        private bool CheckPotentialWallCollision(Rectangle hitbox, MovingBlock block)
+        {
+            var preHitbox = hitbox;
+            preHitbox.Offset(block.ParentPlatform.Velocity);
+            var collsionInfo = LevelManager.GetCollisionInfo(preHitbox);
+             
+            collsionInfo.IsCollidingWith<>()
         }
     }
 }
