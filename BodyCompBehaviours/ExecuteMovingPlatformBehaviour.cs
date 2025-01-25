@@ -70,10 +70,12 @@ namespace MovingBlockMod.BodyCompBehaviours
                 return true;
             }
             
-            if 
-            
             player.m_body.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
-            player.m_body.Position.X += velocityBlockReference.ParentPlatform.Velocity.X;
+            
+            if (!CheckPotentialWallCollision(hitbox, velocityBlockReference))
+            {
+                player.m_body.Position.X += velocityBlockReference.ParentPlatform.Velocity.X;
+            }
             
             return true;
         }
@@ -82,9 +84,14 @@ namespace MovingBlockMod.BodyCompBehaviours
         {
             var preHitbox = hitbox;
             preHitbox.Offset(block.ParentPlatform.Velocity);
-            var collsionInfo = LevelManager.GetCollisionInfo(preHitbox);
-             
-            collsionInfo.IsCollidingWith<>()
+            var collisionInfo = LevelManager.GetCollisionInfo(preHitbox);
+            if (collisionInfo == null)
+                return false;
+            if (collisionInfo.IsCollidingWith<BoxBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
