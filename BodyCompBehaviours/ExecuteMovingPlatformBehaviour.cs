@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EntityComponent;
@@ -49,10 +50,7 @@ namespace MovingBlockMod.BodyCompBehaviours
             {
                 var blockRect = block.GetRect();
                 return blockRect.Intersects(hitbox) ||
-                       (hitbox.Bottom == blockRect.Top && hitbox.Right > blockRect.Left && hitbox.Left < blockRect.Right) // ||
-                    // (hitbox.Right == blockRect.Left && hitbox.Bottom > blockRect.Top && hitbox.Top < blockRect.Bottom) ||
-                    // (hitbox.Right == blockRect.Left && hitbox.Bottom > blockRect.Top && hitbox.Top < blockRect.Bottom)
-                    ;
+                       (hitbox.Bottom == blockRect.Top && hitbox.Right > blockRect.Left && hitbox.Left < blockRect.Right);
             });
 
             MovingBlock velocityBlockReference;
@@ -70,38 +68,58 @@ namespace MovingBlockMod.BodyCompBehaviours
                 return true;
             }
             
+            var potentialCollidedBlock = CheckPotentialCollision(player, velocityBlockReference);
+
+            player.m_body.Position.X += Math.Sign(velocityBlockReference.ParentPlatform.Velocity.X) * (Math.Abs(velocityBlockReference.ParentPlatform.Velocity.X) - potentialCollidedBlock);
+            
             player.m_body.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
-            
-            if (!CheckPotentialWallCollision(hitbox, velocityBlockReference))
-            {
-                player.m_body.Position.X += velocityBlockReference.ParentPlatform.Velocity.X;
-            }
-            
             return true;
         }
         
-        private bool CheckPotentialWallCollision(Rectangle hitbox, MovingBlock block)
+        private float CheckPotentialCollision(PlayerEntity player, MovingBlock block)
         {
-            var preHitbox = hitbox;
+            var preHitbox = player.m_body.GetHitbox();
             preHitbox.Offset(block.ParentPlatform.Velocity);
             var collisionInfo = LevelManager.GetCollisionInfo(preHitbox);
+            
             if (collisionInfo == null)
-                return false;
-            if (collisionInfo.IsCollidingWith<BoxBlock>())
+                return 0f;
+            if (!collisionInfo.IsCollidingWith<BoxBlock>())
+                return 0f;
+            
+            var intersection = new Rectangle();
+            collisionInfo.GetCollidedBlocks<BoxBlock>().FirstOrDefault()?.Intersects(preHitbox, out intersection);
+            return intersection.Width;
+            
+            /*var prePreHitbox = preHitbox;
+            prePreHitbox.Offset(new Vector2(block.ParentPlatform.Velocity.X, block.ParentPlatform.Velocity.Y));
+            var collisionInfoSlope = LevelManager.GetCollisionInfo(prePreHitbox);
+            if (collisionInfoSlope == null)
+                return 0;
+            if (collisionInfoSlope.IsCollidingWith<SlopeBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
             {
-                return true;
+                return 2;
+            }*/
+            
+            /*var prePreHitbox1 = preHitbox;
+            prePreHitbox1.Offset(new Vector2(block.ParentPlatform.Velocity.X - 3f, block.ParentPlatform.Velocity.Y));
+            var collisionInfoSlope1 = LevelManager.GetCollisionInfo(prePreHitbox1);
+            if (collisionInfoSlope1 == null)
+                return 0;
+            if (collisionInfoSlope1.IsCollidingWith<SlopeBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
+            {
+                return 3;
             }
             
-            var prePreHitbox = preHitbox;
-            prePreHitbox.Offset(block.ParentPlatform.Velocity);
-            var collisionInfo2 = LevelManager.GetCollisionInfo(prePreHitbox);
-            if (collisionInfo2 == null)
-                return false;
-            if (collisionInfo2.IsCollidingWith<SlopeBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
+            var prePreHitbox2 = preHitbox;
+            prePreHitbox2.Offset(new Vector2(block.ParentPlatform.Velocity.X + 3f, block.ParentPlatform.Velocity.Y));
+            var collisionInfoSlope2 = LevelManager.GetCollisionInfo(prePreHitbox2);
+            if (collisionInfoSlope2 == null)
+                return 0;
+            if (collisionInfoSlope2.IsCollidingWith<SlopeBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
             {
-                return true;
-            }
-            return false;
+                return 4;
+            }*/
         }
     }
 }
