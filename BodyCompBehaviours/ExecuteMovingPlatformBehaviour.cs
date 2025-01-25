@@ -87,7 +87,17 @@ namespace MovingBlockMod.BodyCompBehaviours
             var collisionInfo = LevelManager.GetCollisionInfo(preHitbox);
             if (collisionInfo == null)
                 return false;
-            if (collisionInfo.IsCollidingWith<BoxBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
+            if (collisionInfo.IsCollidingWith<BoxBlock>())
+            {
+                return true;
+            }
+            
+            var prePreHitbox = preHitbox;
+            prePreHitbox.Offset(block.ParentPlatform.Velocity);
+            var collisionInfo2 = LevelManager.GetCollisionInfo(prePreHitbox);
+            if (collisionInfo2 == null)
+                return false;
+            if (collisionInfo2.IsCollidingWith<SlopeBlock>() || collisionInfo.IsCollidingWith<SlopeBlock>())
             {
                 return true;
             }
