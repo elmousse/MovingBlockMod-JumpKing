@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BehaviorTree;
 using EntityComponent;
+using EntityComponent.BT;
 using JumpKing.API;
 using JumpKing.BodyCompBehaviours;
 using JumpKing.Level;
@@ -70,10 +72,38 @@ namespace MovingBlockMod.BodyCompBehaviours
             
             var potentialCollidedBlock = CheckPotentialCollision(bodyComp, velocityBlockReference);
 
+            if (IsCollidingCriticalArea(bodyComp, velocityBlockReference) && potentialCollidedBlock != 0f)
+            {
+                bodyComp.Position.X = 200;
+                /*var player = EntityManager.instance.Find<PlayerEntity>();
+                var behaviourTreeComponent = player.GetComponent<BehaviorTreeComp>();
+                var behaviourTree = behaviourTreeComponent.GetRaw();
+                var jumpState = behaviourTree.FindNode<JumpState>();
+                jumpState.ResetResult();*/
+                return true;
+            }
+
             bodyComp.Position.X += Math.Sign(velocityBlockReference.ParentPlatform.Velocity.X) * (Math.Abs(velocityBlockReference.ParentPlatform.Velocity.X) - potentialCollidedBlock);
             
             bodyComp.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
             
+            return true;
+        }
+
+        private static bool IsCollidingCriticalArea(BodyComp bodyComp, MovingBlock block)
+        {
+            var preHitbox = bodyComp.GetHitbox();
+            preHitbox.Offset(block.ParentPlatform.Velocity);
+            var collisionInfo = LevelManager.GetCollisionInfo(preHitbox);
+
+            if (collisionInfo == null)
+            {
+                return false;
+            }
+            if (!collisionInfo.IsCollidingWith<CriticalAreaBlock>())
+            {
+                return false;
+            }
             return true;
         }
         
@@ -91,6 +121,27 @@ namespace MovingBlockMod.BodyCompBehaviours
             var intersection = new Rectangle();
             collisionInfo.GetCollidedBlocks<BoxBlock>().FirstOrDefault()?.Intersects(preHitbox, out intersection);
             return intersection.Width;
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             
             /*var prePreHitbox = preHitbox;
             prePreHitbox.Offset(new Vector2(block.ParentPlatform.Velocity.X, block.ParentPlatform.Velocity.Y));

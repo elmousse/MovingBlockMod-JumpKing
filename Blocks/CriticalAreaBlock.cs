@@ -9,7 +9,7 @@ namespace MovingBlockMod.Blocks
         public readonly MovingPlatform ParentPlatform;
         private Rectangle _collider;
         public readonly int SreenIndex;
-        public Color DebugColor => new Color(255, 96, 48);
+        public Color DebugColor => new Color(255, 148, 96);
 
         public CriticalAreaBlock(
             Rectangle collider,

@@ -172,7 +172,7 @@ namespace MovingBlockMod.XmlData
         [XmlElement("screenOffset", IsNullable = true)]
         public int? ScreenOffset { get; set; }
         
-        public Rectangle Area => new Rectangle(X, Y, Width, Height);
+        public Rectangle Area => new Rectangle(X, Y - (_parentPlatform.ScreenIndex + (ScreenOffset ?? 0)) * 360, Width, Height);
         
         public int ScreenIndex => _parentPlatform.ScreenIndex + (ScreenOffset ?? 0);
         

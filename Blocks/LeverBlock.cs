@@ -7,7 +7,7 @@ namespace MovingBlockMod.Blocks
 {
     public class LeverBlock : IBlock, IBlockDebugColor
     {
-        public Color DebugColor => new Color(0, 210, 180);
+        public Color DebugColor => new Color(0, 172, 32);
         
         private Rectangle _collider;
         private readonly Lever _parentLever;
