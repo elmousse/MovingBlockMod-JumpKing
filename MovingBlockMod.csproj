@@ -55,6 +55,7 @@
     <ItemGroup>
         <Compile Include="BlockBehaviours\LeverBlockBehaviour.cs" />
         <Compile Include="BlockBehaviours\MovingBlockBehaviour.cs" />
+        <Compile Include="Blocks\CriticalAreaBlock.cs" />
         <Compile Include="Blocks\LeverBlock.cs" />
         <Compile Include="Blocks\MovingBlock.cs" />
         <Compile Include="BodyCompBehaviours\ExecuteMovingPlatformBehaviour.cs" />

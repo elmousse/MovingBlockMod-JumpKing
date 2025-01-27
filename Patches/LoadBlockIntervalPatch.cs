@@ -66,23 +66,23 @@ namespace MovingBlockMod.Patches
                 }
             }
             var blockList = new List<IBlock>(__result);
-            foreach (var movingPlatform in MovingPlatformManager.Instance.Platforms)
-            {
-                if (!movingPlatform.PotentialScreens.Contains(p_screen))
-                {
-                    continue;
-                }
-                blockList.AddRange(movingPlatform.Blocks);
-            }
-            foreach (var lever in LeverManager.Instance.Levers)
-            {
-                var blocks = lever.Zones.FindAll(zone => zone.Screen == p_screen).Select(zone => zone.Block).ToList();
-                if (!blocks.Any())
-                {
-                    continue;
-                }
-                blockList.AddRange(blocks);
-            }
+            
+            // Add MovingBlocks
+            blockList.AddRange(MovingPlatformManager.Instance.Platforms
+                .Where(movingPlatform => movingPlatform.PotentialScreens.Contains(p_screen))
+                .SelectMany(movingPlatform => movingPlatform.Blocks));
+            
+            // Add CriticalAreaBlocks
+            blockList.AddRange(MovingPlatformManager.Instance.Platforms
+                .SelectMany(movingPlatform => movingPlatform.CriticalAreas)
+                .Where(block => block.SreenIndex == p_screen));
+            
+            // Add LeverBlocks
+            blockList.AddRange(LeverManager.Instance.Levers
+                .SelectMany(lever => lever.Zones
+                    .Where(zone => zone.Screen == p_screen)
+                    .Select(zone => zone.Block)));
+            
             __result = blockList.ToArray();
         }
     }

@@ -15,8 +15,8 @@ namespace MovingBlockMod.BodyCompBehaviours
     {
         public bool ExecuteBehaviour(BehaviourContext behaviourContext)
         {
-            var player = EntityManager.instance.Find<PlayerEntity>();
-            var hitbox = player.m_body.GetHitbox();
+            var bodyComp = behaviourContext.BodyComp;
+            var hitbox = bodyComp.GetHitbox();
             
             var currentPlayerTopScreen = ((hitbox.Top % 360 + 360) % 360 - hitbox.Top) / 360;
             var currentPlayerBottomScreen = ((hitbox.Bottom % 360 + 360) % 360 - hitbox.Bottom) / 360;
@@ -68,17 +68,18 @@ namespace MovingBlockMod.BodyCompBehaviours
                 return true;
             }
             
-            var potentialCollidedBlock = CheckPotentialCollision(player, velocityBlockReference);
+            var potentialCollidedBlock = CheckPotentialCollision(bodyComp, velocityBlockReference);
 
-            player.m_body.Position.X += Math.Sign(velocityBlockReference.ParentPlatform.Velocity.X) * (Math.Abs(velocityBlockReference.ParentPlatform.Velocity.X) - potentialCollidedBlock);
+            bodyComp.Position.X += Math.Sign(velocityBlockReference.ParentPlatform.Velocity.X) * (Math.Abs(velocityBlockReference.ParentPlatform.Velocity.X) - potentialCollidedBlock);
             
-            player.m_body.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
+            bodyComp.Position.Y += velocityBlockReference.ParentPlatform.Velocity.Y;
+            
             return true;
         }
         
-        private float CheckPotentialCollision(PlayerEntity player, MovingBlock block)
+        private float CheckPotentialCollision(BodyComp bodyComp, MovingBlock block)
         {
-            var preHitbox = player.m_body.GetHitbox();
+            var preHitbox = bodyComp.GetHitbox();
             preHitbox.Offset(block.ParentPlatform.Velocity);
             var collisionInfo = LevelManager.GetCollisionInfo(preHitbox);
             

@@ -46,6 +46,10 @@ namespace MovingBlockMod.XmlData
         [XmlArray("Waypoints")]
         [XmlArrayItem("Waypoint")]
         public List<WaypointXml> Waypoints { get; set; } = new List<WaypointXml>();
+        
+        [XmlArray("CriticalAreas")]
+        [XmlArrayItem("CriticalArea")]
+        public List<CriticalAreaXml> CriticalAreas { get; set; } = new List<CriticalAreaXml>();
 
         public void Setup(int screenIndex)
         {
@@ -53,6 +57,10 @@ namespace MovingBlockMod.XmlData
             foreach (var waypoint in Waypoints)
             {
                 waypoint.Setup(this);
+            }
+            foreach (var criticalArea in CriticalAreas)
+            {
+                criticalArea.Setup(this);
             }
         }
         
@@ -139,6 +147,34 @@ namespace MovingBlockMod.XmlData
         public float? RelativeTime { get; set; }
         
         public Point Position => new Point(X, Y - (_parentPlatform.ScreenIndex + (ScreenOffset ?? 0)) * 360);
+        
+        private MovingPlatformXml _parentPlatform;
+        public void Setup(MovingPlatformXml parentPlatform)
+        {
+            _parentPlatform = parentPlatform;
+        }
+    }
+    
+    public class CriticalAreaXml
+    {
+        [XmlElement("X")]
+        public int X { get; set; }
+
+        [XmlElement("Y")]
+        public int Y { get; set; }
+        
+        [XmlElement("Width")]
+        public int Width { get; set; }
+        
+        [XmlElement("Height")]
+        public int Height { get; set; }
+        
+        [XmlElement("screenOffset", IsNullable = true)]
+        public int? ScreenOffset { get; set; }
+        
+        public Rectangle Area => new Rectangle(X, Y, Width, Height);
+        
+        public int ScreenIndex => _parentPlatform.ScreenIndex + (ScreenOffset ?? 0);
         
         private MovingPlatformXml _parentPlatform;
         public void Setup(MovingPlatformXml parentPlatform)

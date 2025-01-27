@@ -18,7 +18,9 @@ namespace MovingBlockMod.Entities
     {
         public Lever Lever { get; private set; }
         private readonly List<MovingBlock> _blocks = new List<MovingBlock>();
+        private readonly List <CriticalAreaBlock> _criticalAreas = new List<CriticalAreaBlock>();
         public List<MovingBlock> Blocks => _blocks;
+        public List<CriticalAreaBlock> CriticalAreas => _criticalAreas;
         public int[] PotentialScreens { get; }
         public int[] CurrentScreens
         {
@@ -79,6 +81,11 @@ namespace MovingBlockMod.Entities
         public void AddBlock(MovingBlock block)
         {
             _blocks.Add(block);
+        }
+        
+        public void AddCriticalArea(CriticalAreaBlock criticalArea)
+        {
+            _criticalAreas.Add(criticalArea);
         }
         
         public void Update1()

@@ -83,6 +83,14 @@ namespace MovingBlockMod.Factories
                 }
                 platform.AddBlock(new MovingBlock(new Point(xPosition, yPosition), platform));
             }
+            
+            // Add critical areas
+            foreach (var criticalArea in data.CriticalAreas)
+            {
+                var collider = criticalArea.Area;
+                var screen = criticalArea.ScreenIndex;
+                platform.AddCriticalArea(new CriticalAreaBlock(collider, platform, screen));
+            }
         
             return platform;
         }
