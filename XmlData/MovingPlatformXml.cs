@@ -163,10 +163,10 @@ namespace MovingBlockMod.XmlData
         [XmlElement("Y")]
         public int Y { get; set; }
         
-        [XmlElement("Width")]
+        [XmlElement("width")]
         public int Width { get; set; }
         
-        [XmlElement("Height")]
+        [XmlElement("height")]
         public int Height { get; set; }
         
         [XmlElement("screenOffset", IsNullable = true)]
