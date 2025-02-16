@@ -2,15 +2,15 @@ This is the documentation for the Moving Block Mod in Jump King.
 
 # Table of Contents
 
-- [**Getting Started**](#getting-started)
-  - [Mod structure in a map](#mod-structure-in-a-map)
-  - [Create your first moving platform](#create-your-first-moving-platform)
-    - [Setup the definition file](#setup-the-definition-file)
-    - [Add a hitbox](#add-a-hitbox)
-    - [Add a texture](#add-a-texture)
-    - [Add movement to the platform](#add-movement-to-the-platform)
-- [**Moving platform**](#moving-platform)
-- [**Levers**](#levers)
+[**Getting Started**](#getting-started)  
+&nbsp;&nbsp;&nbsp;&nbsp;[Mod structure in a map](#mod-structure-in-a-map)  
+&nbsp;&nbsp;&nbsp;&nbsp;[Create your first moving platform](#create-your-first-moving-platform)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Setup the definition file](#setup-the-definition-file)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Add a hitbox](#add-a-hitbox)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Add a texture](#add-a-texture)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Add movement to the platform](#add-movement-to-the-platform)  
+[**Moving platform**](#moving-platform)  
+[**Levers**](#levers)
 
 # Getting Started
 
