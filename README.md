@@ -53,21 +53,44 @@ list, and each platform should be defined inside a
 
 ```xml
 <MovingPlatforms>
-  <!-- a moving platform -->
-  <MovingPlatform>
-  </MovingPlatform>
+    <!-- a moving platform -->
+    <MovingPlatform>
+    </MovingPlatform>
 
-  <!-- other moving platforms -->
+    <!-- other moving platforms -->
 </MovingPlatforms>
 ```
 
 Let's start by providing the mod at which screen the platform will be
 placed. This is done by adding the `<screen>` tag.
 
-```diff xml
+```xml
 <MovingPlatforms>
-  <MovingPlatform>
-+    <screen>1</screen>
-  </MovingPlatform>
+    <MovingPlatform>
+        <screen>1</screen> <!-- the platform will be placed at screen 1 -->
+    </MovingPlatform>
+</MovingPlatforms>
+```
+
+#### Add a hitbox
+
+A moving platform hitbox is an image made up of blocks, similar to the
+`level.xnb` file in your map. The image's height and width should match
+the hitbox size.
+
+Lets do a 6x2 blocks platform (only base block available for now), the image
+should be 6x2 pixels.
+
+Convert it to a .xnb file, place it inside the `/moving_platforms/hitboxes` folder.
+
+Then, reference it in the definition file using the
+`<hitboxName>` tag to specify the hitbox file name.
+
+```xml
+<MovingPlatforms>
+    <MovingPlatform>
+        <screen>1</screen>
+        <hitboxName>platform-6-2-hitbox</hitboxName> <!-- your hitbox file name -->
+    </MovingPlatform>
 </MovingPlatforms>
 ```
