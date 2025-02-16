@@ -64,7 +64,7 @@ list, and each platform should be defined inside a
 Let's start by providing the mod at which screen the platform will be
 placed. This is done by adding the `<screen>` tag.
 
-```diff
+```diff xml
 <MovingPlatforms>
   <MovingPlatform>
 +    <screen>1</screen>
