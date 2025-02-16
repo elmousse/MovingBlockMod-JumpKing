@@ -72,3 +72,8 @@ placed. This is done by adding the `<screen>` tag.
 </MovingPlatforms>
 ```
 
+<code text [highlight_lines_extra="2,3"]>
+Line 1 is not highlighted.
+Line 2 is highlighted.
+Line 3 is highlighted.
+</code>
