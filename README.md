@@ -94,3 +94,67 @@ Then, reference it in the definition file using the
     </MovingPlatform>
 </MovingPlatforms>
 ```
+
+#### Add a texture
+
+The texture is what will be displayed over the platform. One block
+corresponding to 8 pixels, lets do a 48x16 pixels texture for our example.
+More advanced customisation for the texture in the moving platform section.
+
+> However, adding a texture is optional. If you prefer, you can use only the
+platform’s hitbox when designing the map, without applying any texture, the debug color will be used.
+
+Same as the hitbox, convert it to a .xnb file, place it inside the `/moving_platforms/textures` folder.
+
+Then, reference it in the definition file using the
+`<textureName>` tag to specify the texture file name.
+
+```xml
+<MovingPlatforms>
+    <MovingPlatform>
+        <screen>1</screen>
+        <hitboxName>platform-6-2-hitbox</hitboxName>
+        <textureName>platform-6-2-texture</textureName> <!-- your texture file name -->
+    </MovingPlatform>
+</MovingPlatforms>
+```
+
+#### Add movement to the platform
+
+To make the platform move, you need to define a path for it to follow. This
+is done by adding multiple `<Waypoint>` tags inside a
+`<Waypoints>` list. Each waypoint must have at least a
+position.
+
+In addition to defining the path, you must specify a `<travelTime>` for the
+platform. This determines how fast it moves.
+
+Let’s create a simple back-and-forth movement for our platform. To do this,
+we need two waypoints: one at the starting position and one at the ending
+position. The full round trip (going to the endpoint and coming back) will
+take 10 seconds.
+
+To ensure it moves back and forth automatically, we add
+`<pingPongMode>` tag and set it to `true`.
+
+```xml
+<MovingPlatforms>
+    <MovingPlatform>
+        <screen>1</screen>
+        <hitboxName>platform-6-2-hitbox</hitboxName>
+        <textureName>platform-6-2-texture</textureName>
+        <travelTime>10</travelTime>
+        <pingPongMode>true</pingPongMode>
+        <Waypoints>
+            <Waypoint>
+                <X>240</X>
+                <Y>100</Y>
+            </Waypoint>
+            <Waypoint>
+                <X>240</X>
+                <Y>400</Y>
+            </Waypoint>
+        </Waypoints>
+    </MovingPlatform>
+</MovingPlatforms>
+```
