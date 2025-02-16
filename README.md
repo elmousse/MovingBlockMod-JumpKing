@@ -1,5 +1,15 @@
 # Moving Block Mod for Jump King
 
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [Mod structure in a map](#mod-structure-in-a-map)
+  - [Create your first moving platform](#create-your-first-moving-platform)
+    - [Setup the definition file](#setup-the-definition-file)
+    - [Add a hitbox](#add-a-hitbox)
+    - [Add a texture](#add-a-texture)
+    - [Add movement to the platform](#add-movement-to-the-platform)
+
 ## Getting Started
 
 This mod introduces **moving platforms** to *Jump King*,
