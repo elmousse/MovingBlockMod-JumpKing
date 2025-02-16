@@ -1,16 +1,18 @@
-# Moving Block Mod for Jump King
+This is the documentation for the Moving Block Mod in Jump King.
 
-## Table of Contents
+# Table of Contents
 
-- [Getting Started](#getting-started)
+- [**Getting Started**](#getting-started)
   - [Mod structure in a map](#mod-structure-in-a-map)
   - [Create your first moving platform](#create-your-first-moving-platform)
     - [Setup the definition file](#setup-the-definition-file)
     - [Add a hitbox](#add-a-hitbox)
     - [Add a texture](#add-a-texture)
     - [Add movement to the platform](#add-movement-to-the-platform)
+- [**Moving platform**](#moving-platform)
+- [**Levers**](#levers)
 
-## Getting Started
+# Getting Started
 
 This mod introduces **moving platforms** to *Jump King*,
 allowing map creators to create dynamic, moving obstacles. You can control
@@ -19,7 +21,7 @@ Levers.
 
 A moving platform is essentially a set of solid blocks that move together as one.
 
-### Mod structure in a map
+## Mod structure in a map
 
 To use the mod in your map, create a folder named
 `moving_block_mod` in the root of your map folder. If you are
@@ -47,13 +49,13 @@ In the Getting Started section, we will focus on how to setup a simple
 moving platform, more advanced topics about them are available in the 
 moving platform section. Same for the levers.
 
-### Create your first moving platform
+## Create your first moving platform
 
 Once you have the mod folder set up, you can start creating your first
 moving platform. To create one, you will need 3 files: a definition, a
 texture and a hitbox.
 
-#### Setup the definition file
+### Setup the definition file
 
 Inside the `/moving_platforms/definitions` folder, create a new
 XML file and name it as you like. In this file, you can define multiple
@@ -82,7 +84,7 @@ placed. This is done by adding the `<screen>` tag.
 </MovingPlatforms>
 ```
 
-#### Add a hitbox
+### Add a hitbox
 
 A moving platform hitbox is an image made up of blocks, similar to the
 `level.xnb` file in your map. The image's height and width should match
@@ -105,7 +107,7 @@ Then, reference it in the definition file using the
 </MovingPlatforms>
 ```
 
-#### Add a texture
+### Add a texture
 
 The texture is what will be displayed over the platform. One block
 corresponding to 8 pixels, lets do a 48x16 pixels texture for our example.
@@ -129,7 +131,7 @@ Then, reference it in the definition file using the
 </MovingPlatforms>
 ```
 
-#### Add movement to the platform
+### Add movement to the platform
 
 To make the platform move, you need to define a path for it to follow. This
 is done by adding multiple `<Waypoint>` tags inside a
