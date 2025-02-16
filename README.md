@@ -64,16 +64,10 @@ list, and each platform should be defined inside a
 Let's start by providing the mod at which screen the platform will be
 placed. This is done by adding the `<screen>` tag.
 
-```xml
+```xml [highlight_lines_extra="2,3"]
 <MovingPlatforms>
   <MovingPlatform>
 !    <screen>1</screen>
   </MovingPlatform>
 </MovingPlatforms>
 ```
-
-<code text [highlight_lines_extra="2,3"]>
-Line 1 is not highlighted.
-Line 2 is highlighted.
-Line 3 is highlighted.
-</code>
