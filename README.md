@@ -174,3 +174,6 @@ To ensure it moves back and forth automatically, we add
     </MovingPlatform>
 </MovingPlatforms>
 ```
+
+![6_2_offset_texture_resize_king](https://github.com/user-attachments/assets/733b712b-c07a-45fe-b914-de3885502b2e)
+
