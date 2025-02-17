@@ -15,7 +15,7 @@ namespace MovingBlockMod.XmlData
         [XmlElement("id")]
         public string LeverId { get; set; }
         
-        [XmlElement("startingState")]
+        [XmlElement("startState")]
         public bool StartingState { get; set; }
         
         [XmlElement("activationType")]
@@ -34,8 +34,8 @@ namespace MovingBlockMod.XmlData
             }
         }
 
-        [XmlArray("ActivationZones")]
-        [XmlArrayItem("Zone")]
+        [XmlArray("LeverAreas")]
+        [XmlArrayItem("LeverArea")]
         public List<ZoneXml> ActivationZones { get; set; } = new List<ZoneXml>();
     }
     
