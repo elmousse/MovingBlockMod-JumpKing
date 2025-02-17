@@ -175,5 +175,29 @@ To ensure it moves back and forth automatically, we add
 </MovingPlatforms>
 ```
 
+### Test it!
+
+Now that you have all the files set up, make sure you place it inside your map foler
+and test it in the game!
+
+// TODO: add gif
+
+# Moving platform
+
+## Titre
+
+### Hitbox
+
+### Texture
+
+### Texture offset
+
+## Waypoints
+
+
+
+## Critical areas
+
+# Levers
 
 ![6_2_offset_texture_resize_king](https://github.com/user-attachments/assets/da8de0c4-08c6-4851-958a-41a1d0b6ea2d)
