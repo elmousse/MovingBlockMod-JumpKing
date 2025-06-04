@@ -1,23 +1,24 @@
-using System.Collections.Generic;
 using JumpKing.Level;
 using Microsoft.Xna.Framework;
 using MovingBlockMod.Entities;
 
 namespace MovingBlockMod.Blocks
 {
-    public class LeverBlock : IBlock, IBlockDebugColor
+    public class CriticalAreaBlock : IBlock, IBlockDebugColor
     {
-        public Color DebugColor => new Color(0, 172, 32);
-        
+        public readonly MovingPlatform ParentPlatform;
         private Rectangle _collider;
-        private readonly Lever _parentLever;
+        public readonly int SreenIndex;
+        public Color DebugColor => new Color(255, 148, 96);
 
-        public LeverBlock(
+        public CriticalAreaBlock(
             Rectangle collider,
-            Lever parentLever)
+            MovingPlatform parentPlatform,
+            int screen)
         {
-            _parentLever = parentLever;
+            ParentPlatform = parentPlatform;
             _collider = collider;
+            SreenIndex = screen;
         }
         
         public Rectangle GetRect()

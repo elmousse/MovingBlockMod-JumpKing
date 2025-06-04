@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using MovingBlockMod.Blocks;
 using MovingBlockMod.Entities;
 
 namespace MovingBlockMod
@@ -46,6 +48,12 @@ namespace MovingBlockMod
             {
                 platform.Update1();
             }
+        }
+        
+        public List<MovingBlock> GetMovingBlocksOnScreen(int screenIndex)
+        {
+            var platforms = Platforms.FindAll(platform => platform.CurrentScreens.Contains(screenIndex));
+            return platforms.SelectMany(platform => platform.Blocks).ToList();
         }
     }
 }

@@ -18,7 +18,9 @@ namespace MovingBlockMod.Entities
     {
         public Lever Lever { get; private set; }
         private readonly List<MovingBlock> _blocks = new List<MovingBlock>();
+        private readonly List <CriticalAreaBlock> _criticalAreas = new List<CriticalAreaBlock>();
         public List<MovingBlock> Blocks => _blocks;
+        public List<CriticalAreaBlock> CriticalAreas => _criticalAreas;
         public int[] PotentialScreens { get; }
         public int[] CurrentScreens
         {
@@ -39,7 +41,10 @@ namespace MovingBlockMod.Entities
         
         private List<Waypoint> Waypoints { get; }
         public Point CurrentPosition { get; private set; }
+        private Point LastPosition { get; set; }
         private Point TextureOffset { get; }
+        
+        public Vector2 Velocity => new Vector2(CurrentPosition.X - LastPosition.X, CurrentPosition.Y - LastPosition.Y);
         
         private IPlatformActivation _activation;
         
@@ -78,17 +83,14 @@ namespace MovingBlockMod.Entities
             _blocks.Add(block);
         }
         
-        /*protected override void Update(float delta)
+        public void AddCriticalArea(CriticalAreaBlock criticalArea)
         {
-            Position = UpdatePlatformPosition();
-            foreach (var block in _blocks)
-            {
-                block.UpdatePosition();
-            }
-        }*/
+            _criticalAreas.Add(criticalArea);
+        }
         
         public void Update1()
         {
+            LastPosition = CurrentPosition;
             var time = (TimeSpan)AchievementManagerWrapper.GetTimeSpan();
             var modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
             
@@ -110,7 +112,6 @@ namespace MovingBlockMod.Entities
                 _delay += time - _lastTimeActive;
             }
             
-
             modTime = ((float)time.TotalSeconds - (float)_delay.TotalSeconds) % Waypoints[Waypoints.Count - 1].Time;
             waypointIndex = GetWaypointIndex(modTime);
             
